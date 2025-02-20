@@ -1,3 +1,4 @@
+//403106176
 import java.util.*;
 
 public class Main {
@@ -20,52 +21,63 @@ public class Main {
     }
 
     static void lettersFromStart(String[] words) {
-        Map<String, Integer> prefixCount = new HashMap<>();
+        Map<String, Set<String>> prefixMap = new HashMap<>();
 
-        // Precompute all prefixes
         for (String word : words) {
             StringBuilder prefix = new StringBuilder();
             for (char ch : word.toCharArray()) {
                 prefix.append(ch);
-                prefixCount.put(prefix.toString(), prefixCount.getOrDefault(prefix.toString(), 0) + 1);
+                prefixMap.computeIfAbsent(prefix.toString(), k -> new HashSet<>()).add(word);
             }
         }
 
         // Find shortest unique prefix
         for (String word : words) {
             StringBuilder prefix = new StringBuilder();
+            boolean uniqueFound = false;
+
             for (int i = 0; i < word.length(); i++) {
                 prefix.append(word.charAt(i));
-                if (prefixCount.get(prefix.toString()) == 1) {
+                if (prefixMap.get(prefix.toString()).size() == 1) {
                     System.out.print((i + 1) + " ");
+                    uniqueFound = true;
                     break;
                 }
+            }
+
+            if (!uniqueFound) {
+                System.out.print(word.length() + " ");
             }
         }
         System.out.println();
     }
 
     static void lettersFromEnd(String[] words) {
-        Map<String, Integer> suffixCount = new HashMap<>();
+        Map<String, Set<String>> suffixMap = new HashMap<>();
 
-        // Precompute all suffixes
         for (String word : words) {
             StringBuilder suffix = new StringBuilder();
             for (int i = word.length() - 1; i >= 0; i--) {
                 suffix.insert(0, word.charAt(i));
-                suffixCount.put(suffix.toString(), suffixCount.getOrDefault(suffix.toString(), 0) + 1);
+                suffixMap.computeIfAbsent(suffix.toString(), k -> new HashSet<>()).add(word);
             }
         }
 
-        // Find shortest unique suffix
         for (String word : words) {
             StringBuilder suffix = new StringBuilder();
+            boolean uniqueFound = false;
+
             for (int i = word.length() - 1; i >= 0; i--) {
                 suffix.insert(0, word.charAt(i));
-                if (suffixCount.get(suffix.toString()) == 1) {
+                if (suffixMap.get(suffix.toString()).size() == 1) {
                     System.out.print((word.length() - i) + " ");
+                    uniqueFound = true;
                     break;
                 }
+            }
+
+            if (!uniqueFound) {
+                System.out.print(word.length() + " ");
             }
         }
         System.out.println();
