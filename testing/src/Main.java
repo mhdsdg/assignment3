@@ -4,14 +4,26 @@ import java.util.Scanner;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
+        Person p1 = new Person();
+        p1.age = 45;
+        Person p2 = new Person();
+        p2.age = 54;
+        int number = 454;
+        javaMethod(p1 , p2 , number);
+        System.out.println(p1.age + " " + p2.age + " " + number);
+    }
+    public static void javaMethod(
+            Person first,
+            Person second,
+            int number){
 
-        int power = 15;
-        int terrain = 50;
-        int weather = 20;
+        first.age = 12;
+        number = 5;
 
-        double p = power;
-        p = p * terrain/100;
-        p = p * weather/100;
-        System.out.println((int)p);
+        Person newP = new Person();
+        second = newP;
+    }
+    public static class Person {
+        public int age;
     }
 }
