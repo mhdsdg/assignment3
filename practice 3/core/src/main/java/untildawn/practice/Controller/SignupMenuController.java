@@ -67,9 +67,13 @@ public class SignupMenuController {
     private void resetFormFields() {
         // Reset username field
         view.getUsernameField().setMessageText(view.getUsernameField().getMessageText());
+        view.getPasswordField().setMessageText(view.getPasswordField().getMessageText());
+        view.getSecurityQuestionField().setMessageText(view.getSecurityQuestionField().getMessageText());
+        view.getSecurityAnswerField().setMessageText(view.getSecurityAnswerField().getMessageText());
         view.getAdvanceButton().setChecked(false);
+        view.getGuestButton().setChecked(false);
     }
-    public User getUserByName(String username) {
+    public static User getUserByName(String username) {
         for (User user : App.getUsers()) {
             if (user.getUsername().equals(username)) {
                 return user;

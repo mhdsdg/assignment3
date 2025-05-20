@@ -1,6 +1,13 @@
 package untildawn.practice.Controller;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import untildawn.practice.Main;
+import untildawn.practice.Model.App;
+import untildawn.practice.Model.Enum.dialogue.Dialogues;
+import untildawn.practice.Model.GameAssetManager;
+import untildawn.practice.Model.User;
+import untildawn.practice.View.ForgotPasswordMenu;
 import untildawn.practice.View.LoginMenu;
 import untildawn.practice.View.MainMenu;
 
@@ -12,8 +19,57 @@ public class LoginMenuController {
 
     public void handleLogin() {
         if(view != null && view.getAdvanceButton().isChecked()) {
-            Main.getMain().getScreen().dispose();
-            Main.getMain().setScreen(new MainMenu());
+            User user = SignupMenuController.getUserByName(view.getUsernameField().getText());
+            if(user == null) {
+                showErrorDialog(Dialogues.ErrorUsernameDoesNotExist.getTitle(), Dialogues.ErrorUsernameDoesNotExist.getText());
+                resetFormFields();
+            }
+            else if(!user.getPassword().equals(view.getPasswordField().getText())) {
+                showErrorDialog(Dialogues.ErrorPasswordIncorrect.getTitle(), Dialogues.ErrorPasswordIncorrect.getText());
+                resetFormFields();
+            }
+            else {
+                App.setLoggedInUser(user);
+                Main.getMain().getScreen().dispose();
+                Main.getMain().setScreen(new MainMenu());
+            }
         }
+    }
+    public void handleForgotPassword() {
+        if(view != null && view.getForgotPasswordButton().isChecked()) {
+            User user = SignupMenuController.getUserByName(view.getUsernameField().getText());
+            if(user == null) {
+                showErrorDialog(Dialogues.ErrorUsernameDoesNotExist.getTitle(), Dialogues.ErrorUsernameDoesNotExist.getText());
+                resetFormFields();
+            }
+            else if(user.getSecurityQuestion() == null) {
+                showErrorDialog(Dialogues.ErrorNoSecurityQuestion.getTitle(), Dialogues.ErrorNoSecurityQuestion.getText());
+                resetFormFields();
+            }
+            else{
+                Main.getMain().getScreen().dispose();
+                Main.getMain().setScreen(new ForgotPasswordMenu(new ForgotPasswordMenuController(),GameAssetManager.getManager().getSkin(), user));
+            }
+        }
+    }
+
+    private void showErrorDialog(String title, String message) {
+        Skin skin = GameAssetManager.getManager().getSkin();
+        Dialog dialog = new Dialog(title, skin) {
+            @Override
+            protected void result(Object object) {
+            }
+        };
+        dialog.text(message);
+        dialog.button("OK");
+        dialog.show(view.getStage());
+    }
+
+    private void resetFormFields() {
+        // Reset username field
+        view.getUsernameField().setMessageText(view.getUsernameField().getMessageText());
+        view.getPasswordField().setMessageText(view.getPasswordField().getMessageText());
+        view.getAdvanceButton().setChecked(false);
+        view.getForgotPasswordButton().setChecked(false);
     }
 }

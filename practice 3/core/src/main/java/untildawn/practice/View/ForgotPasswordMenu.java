@@ -6,32 +6,38 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import untildawn.practice.Controller.ForgotPasswordMenuController;
 import untildawn.practice.Controller.LoginMenuController;
 import untildawn.practice.Main;
+import untildawn.practice.Model.User;
 
-public class LoginMenu implements Screen {
+public class ForgotPasswordMenu implements Screen {
     private Stage stage;
     private Skin skin;
     private final TextButton advanceButton;
-    private final TextField usernameField;
-    private final TextField passwordField;
-    private final TextButton forgotPasswordButton;
+    private final TextButton backButton;
+    private final TextField answerTextField;
+    private final TextField newPasswordTextField;
     private final Label title;
+    private final Label questionLabel;
+    private User user;
     public Table table;
-    public LoginMenuController controller;
+    public ForgotPasswordMenuController controller;
 
-    public LoginMenu(LoginMenuController controller, Skin skin) {
+    public ForgotPasswordMenu(ForgotPasswordMenuController controller, Skin skin, User user) {
+        this.user = user;
         this.controller = controller;
         this.skin = skin;
-        this.advanceButton = new TextButton("Login", skin);
+        this.title = new Label("forgot password", skin);
+        this.advanceButton = new TextButton("change password", skin);
         advanceButton.setChecked(false);
-        this.title = new Label("Login Menu", skin);
-        this.usernameField = new TextField("", skin);
-        usernameField.setMessageText("Enter your username");
-        this.passwordField = new TextField("", skin);
-        passwordField.setMessageText("Enter your password");
-        this.forgotPasswordButton = new TextButton("Forgot Password", skin);
-        this.forgotPasswordButton.setChecked(false);
+        this.backButton = new TextButton("back", skin);
+        backButton.setChecked(false);
+        this.answerTextField = new TextField("", skin);
+        answerTextField.setMessageText("Enter your answer");
+        this.newPasswordTextField = new TextField("", skin);
+        newPasswordTextField.setMessageText("Enter your new password");
+        this.questionLabel = new Label(user.getSecurityQuestion(), skin);
         this.table = new Table();
         controller.setView(this);
     }
@@ -46,13 +52,15 @@ public class LoginMenu implements Screen {
         table.center();
         table.add(title);
         table.row().pad(15, 0 , 15 , 0);
-        table.add(usernameField).width(600);
+        table.add(questionLabel);
+        table.row().pad(15, 0 , 15 , 0);
+        table.add(answerTextField).width(600);
         table.row().pad(10, 0 , 10 , 0);
-        table.add(passwordField).width(600);
-        table.row().pad(15, 0 , 10 , 0);
-        table.add(advanceButton).width(300);
+        table.add(newPasswordTextField).width(600);
         table.row().pad(10, 0 , 10 , 0);
-        table.add(forgotPasswordButton).width(300);
+        table.add(advanceButton);
+        table.row().pad(10, 0 , 10 , 0);
+        table.add(backButton);
 
         stage.addActor(table);
     }
@@ -64,8 +72,8 @@ public class LoginMenu implements Screen {
         Main.getBatch().end();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
-        controller.handleLogin();
-        controller.handleForgotPassword();
+        controller.handleForgetPassword();
+        controller.handleGoBack();
     }
 
     @Override
@@ -96,17 +104,22 @@ public class LoginMenu implements Screen {
     public TextButton getAdvanceButton() {
         return advanceButton;
     }
-    public TextField getUsernameField() {
-        return usernameField;
+    public TextField getAnswerTextField() {
+        return answerTextField;
     }
-    public TextField getPasswordField() {
-        return passwordField;
+    public TextField getNewPasswordTextField() {
+        return newPasswordTextField;
     }
-    public TextButton getForgotPasswordButton() {
-        return forgotPasswordButton;
+
+    public User getUser() {
+        return user;
     }
 
     public Stage getStage() {
         return stage;
+    }
+
+    public Button getBackButton() {
+        return backButton;
     }
 }

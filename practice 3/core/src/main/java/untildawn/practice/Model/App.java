@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class App {
     private static ArrayList<User> users = new ArrayList<>();
-    private static User currentUser;
+    private static User loggedInUser;
     private static boolean isGuest = false;
     private static String language = "English";
 
@@ -25,12 +25,12 @@ public class App {
         App.users = users;
     }
 
-    public static User getCurrentUser() {
-        return currentUser;
+    public static User getLoggedInUser() {
+        return loggedInUser;
     }
 
-    public static void setCurrentUser(User currentUser) {
-        App.currentUser = currentUser;
+    public static void setLoggedInUser(User loggedInUser) {
+        App.loggedInUser = loggedInUser;
     }
 
     public static boolean isIsGuest() {

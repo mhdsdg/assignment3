@@ -3,13 +3,10 @@ package untildawn.practice.Model.Enum.dialogue;
 public enum MedievalEnglishDialogue implements Dialogue {
     ErrorUsernameExists("", "" ),
     ErrorPasswordWeak("",""),
-
-
-
-
-
-
-    ;
+    ErrorUsernameDoesNotExist("","" ),
+    ErrorPasswordIncorrect("", ""),
+    ErrorNoSecurityQuestion("", ""),
+    ErrorSecurityAnswerIncorrect("", "");
 
     public final String inMedievalEnglish, inMedievalEnglishMessage ;
     MedievalEnglishDialogue(String inMedievalEnglish, String inMedievalEnglishMessage) {

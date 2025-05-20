@@ -5,7 +5,10 @@ import untildawn.practice.Model.App;
 public enum Dialogues {
     ErrorUsernameExists(EnglishDialogue.ErrorUsernameExists, MedievalEnglishDialogue.ErrorUsernameExists),
     ErrorPasswordWeak(EnglishDialogue.ErrorPasswordWeak, MedievalEnglishDialogue.ErrorPasswordWeak),
-
+    ErrorUsernameDoesNotExist(EnglishDialogue.ErrorUsernameDoesNotExist , MedievalEnglishDialogue.ErrorUsernameDoesNotExist ),
+    ErrorPasswordIncorrect(EnglishDialogue.ErrorPasswordIncorrect,MedievalEnglishDialogue.ErrorPasswordIncorrect ),
+    ErrorNoSecurityQuestion(EnglishDialogue.ErrorNoSecurityQuestion, MedievalEnglishDialogue.ErrorNoSecurityQuestion ),
+    ErrorSecurityAnswerIncorrect(EnglishDialogue.ErrorSecurityAnswerIncorrect, MedievalEnglishDialogue.ErrorSecurityAnswerIncorrect),
     ;
     Dialogue english, medieval;
 
