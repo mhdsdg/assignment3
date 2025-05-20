@@ -10,6 +10,7 @@ import untildawn.practice.Model.User;
 import untildawn.practice.View.ForgotPasswordMenu;
 import untildawn.practice.View.LoginMenu;
 import untildawn.practice.View.MainMenu;
+import untildawn.practice.View.PreGameMenu;
 
 public class LoginMenuController {
     public LoginMenu view;

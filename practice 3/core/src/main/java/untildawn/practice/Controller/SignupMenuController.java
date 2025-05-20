@@ -10,6 +10,7 @@ import untildawn.practice.Model.Enum.Regexes;
 import untildawn.practice.Model.User;
 import untildawn.practice.View.LoginMenu;
 import untildawn.practice.View.MainMenu;
+import untildawn.practice.View.PreGameMenu;
 import untildawn.practice.View.SignupMenu;
 import untildawn.practice.Model.GameAssetManager;
 
@@ -47,7 +48,7 @@ public class SignupMenuController {
         if(view != null && view.getGuestButton().isChecked()) {//guest
             App.setIsGuest(true);
             Main.getMain().getScreen().dispose();
-            Main.getMain().setScreen(new MainMenu());
+            Main.getMain().setScreen(new PreGameMenu(new PreGameMenuController(), GameAssetManager.getManager().getSkin()));
         }
     }
 
