@@ -3,54 +3,62 @@ package untildawn.practice.Model.Monsters;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
+import untildawn.practice.Main;
 import untildawn.practice.Model.CollisionRect;
 import untildawn.practice.Model.GameAssetManager;
 
 public class Tentacle {
-    private final TextureRegion texture = GameAssetManager.getTentacleTexture();
-    private final Animation<TextureRegion> animation = GameAssetManager.getTentacleAnimation();
-    private final Sprite sprite = new Sprite(texture);
-    private float x;
-    private float y;
-    private CollisionRect rect;
-    private float HP = 25;
+    private float x, y; // World coordinates
+    private final Sprite sprite;
+    private final Animation<TextureRegion> animation;
+    private final CollisionRect rect;
     private float stateTime = 0;
+    private float speed = 50f;
+    private Vector2 direction = new Vector2();
+    private float HP = 25;
+    private boolean lookingRight;
 
     public Tentacle(float x, float y) {
         this.x = x;
         this.y = y;
-        sprite.setPosition(x, y);
-        sprite.setSize(80, 80);
-        rect = new CollisionRect(x , y , 80 , 80);
+        this.animation = GameAssetManager.getTentacleAnimation();
+        this.sprite = new Sprite(GameAssetManager.getTentacleTexture());
+        this.sprite.setSize(64, 64);
+        this.sprite.setPosition(x, y);
+        this.rect = new CollisionRect(x, y, 64, 64);
 
         animation.setPlayMode(Animation.PlayMode.LOOP);
     }
 
-    public void update(float delta) { // Add this method
+    public void update(float delta, float playerX, float playerY) {
         stateTime += delta;
         sprite.setRegion(animation.getKeyFrame(stateTime));
+
+        // Calculate direction to player
+        direction.set(playerX - x, playerY - y).nor();
+
+        // Update world position
+        x += direction.x * speed * delta;
+        y += direction.y * speed * delta;
+
+        // Update collision rect (world space)
+        rect.move(x, y);
     }
 
-    public Sprite getSprite() {
-        return sprite;
-    }
-
-    public float getX() {
-        return x;
-    }
-
-    public float getY() {
-        return y;
+    public void draw(float offsetX, float offsetY) {
+        sprite.setPosition(x - offsetX, y - offsetY);
+        rect.move(sprite.getX(), sprite.getY());
+        sprite.draw(Main.getBatch());
     }
 
     public CollisionRect getRect() {
         return rect;
     }
 
-    public float getHP() {
-        return HP;
-    }
-    public void setHP(float HP) {
-        this.HP = HP;
-    }
+    public float getX() { return x; }
+    public float getY() { return y; }
+    public float getHP() { return HP; }
+    public void setHP(float HP) { this.HP = HP; }
 }
+

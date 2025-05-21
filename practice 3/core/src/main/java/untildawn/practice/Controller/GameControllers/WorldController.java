@@ -1,5 +1,6 @@
 package untildawn.practice.Controller.GameControllers;
 
+import com.badlogic.gdx.Gdx;
 import untildawn.practice.Main;
 import untildawn.practice.Model.Player;
 import untildawn.practice.Model.World;
@@ -19,6 +20,14 @@ public class WorldController {
         backgroundX = playerController.getPlayer().getX();
         backgroundY = playerController.getPlayer().getY();
         Main.getBatch().draw(world.getBackgroundTexture(), backgroundX, backgroundY);
+    }
+
+    public float getPlayerWorldX() {
+        return -backgroundX + Gdx.graphics.getWidth() / 2f;
+    }
+
+    public float getPlayerWorldY() {
+        return -backgroundY + Gdx.graphics.getHeight() / 2f;
     }
 
     public float getBackgroundX() {

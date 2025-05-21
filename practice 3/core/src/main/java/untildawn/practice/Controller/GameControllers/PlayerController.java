@@ -6,13 +6,17 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import untildawn.practice.Main;
 import untildawn.practice.Model.Enum.ControlKeys;
 import untildawn.practice.Model.GameAssetManager;
+import untildawn.practice.Model.Monsters.Tentacle;
+import untildawn.practice.Model.Monsters.Tree;
 import untildawn.practice.Model.Player;
 
 public class PlayerController {
     Player player;
+    MonsterController monsterController;
     public PlayerController(Player player) {
         this.player = player;
     }
+    float timeSinceLastHit ;
 
     public void update() {
         if(player.isWalking()){
@@ -20,10 +24,34 @@ public class PlayerController {
         } else if(player.isIdle()){
             idleAnimation();
         }
+        timeSinceLastHit += Gdx.graphics.getDeltaTime();
+        if(timeSinceLastHit >= 2.0f){
+            checkHit();
+        }
 
         player.getSprite().draw(Main.getBatch());
 
         handlePlayerInput();
+    }
+
+    private void checkHit() {
+        for (Tree tree : monsterController.getTrees()) {
+            if(tree.getRect().collidesWith(player.getRect())){
+                isHit();
+                return;
+            }
+        }
+        for (Tentacle tentacle : monsterController.getTentacles()) {
+            if(tentacle.getRect().collidesWith(player.getRect())){
+                isHit();
+                return;
+            }
+        }
+    }
+
+    private void isHit(){
+        player.setHP(player.getHP() - 1);
+        timeSinceLastHit = 0;
     }
 
 

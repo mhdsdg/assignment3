@@ -23,6 +23,10 @@ public class GameAssetManager {
     private static Animation<TextureRegion> idleAnimation = makeHeroIdleAnimation(characterSheet);
     private static Animation<TextureRegion> walkAnimation = makeHeroWalkAnimation(characterSheet);
 
+    private static TextureRegion heartFull;
+    private static TextureRegion heartEmpty;
+    private static Animation<TextureRegion> heartLossAnimation = makeHeartLossAnimation();
+
     private static Weapons weapon = Weapons.Revolver;
     private static Texture weaponTexture = new Texture(weapon.stillAddress);
     private static Animation<TextureRegion> weaponReloadAnimation = makeWeaponReloadAnimation();
@@ -33,7 +37,8 @@ public class GameAssetManager {
     private static TextureRegion TentacleTexture ;
     private static Animation<TextureRegion> TentacleAnimation = makeTentacleAnimation();
 
-
+    private static TextureRegion eyeBatTexture ;
+    private static Animation<TextureRegion> eyeBatAnimation = makeEyeBatAnimation();
 
     private static Texture bulletTexture = new Texture(Gdx.files.internal("bullet.png"));
 
@@ -46,6 +51,17 @@ public class GameAssetManager {
         return manager;
     }
 
+    private static Animation<TextureRegion> makeHeartLossAnimation() {
+        TextureRegion[][] tmp = TextureRegion.split(new Texture("T_HeartAnimation.png"), 32,32);
+        TextureRegion[] frames = new TextureRegion[4];
+        for(int i = 0; i < 4; i++){
+            frames[i] = tmp[0][i];
+        }
+        heartFull = frames[0];
+        heartEmpty = frames[3];
+        return new Animation<>(0.2f, frames);
+    }
+
     private static Animation<TextureRegion> makeTreeAnimation() {
         TextureRegion[][] tmp = TextureRegion.split(new Texture("Monsters/TreeSpriteSheet.png"),96,96);
         TextureRegion[] frames = new TextureRegion[3];
@@ -56,14 +72,24 @@ public class GameAssetManager {
         return new Animation<>(0.5f, frames);
     }
     private static Animation<TextureRegion> makeTentacleAnimation() {
-        TextureRegion[][] tmp = TextureRegion.split(new Texture("Monsters/T_TentacleEnemy.png"),64,64);
+        TextureRegion[][] tmp = TextureRegion.split(new Texture("Monsters/BrainMonster.png"),64,64);
         TextureRegion[] frames = new TextureRegion[4];
         for(int i = 0 ; i < 4 ; i++) {
-            frames[i] = tmp[2][i];
+            frames[i] = tmp[0][i];
         }
         TentacleTexture = frames[0];
-        return new Animation<>(0.1f, frames);
+        return new Animation<>(0.2f, frames);
     }
+    private static Animation<TextureRegion> makeEyeBatAnimation() {
+        TextureRegion[][] tmp = TextureRegion.split(new Texture("Monsters/T_EyeBat.png"),96,96);
+        TextureRegion[] frames = new TextureRegion[4];
+        for(int i = 0 ; i < 4 ; i++) {
+            frames[i] = tmp[0][i];
+        }
+        eyeBatTexture = frames[0];
+        return new Animation<>(0.2f, frames);
+    }
+
 
 
     public static Weapons getWeapon() {
@@ -198,6 +224,26 @@ public class GameAssetManager {
 
     public static Animation<TextureRegion> getTentacleAnimation() {
         return TentacleAnimation;
+    }
+
+    public static TextureRegion getHeartFull() {
+        return heartFull;
+    }
+
+    public static void setHeartFull(TextureRegion heartFull) {
+        GameAssetManager.heartFull = heartFull;
+    }
+
+    public static TextureRegion getHeartEmpty() {
+        return heartEmpty;
+    }
+
+    public static void setHeartEmpty(TextureRegion heartEmpty) {
+        GameAssetManager.heartEmpty = heartEmpty;
+    }
+
+    public static Animation<TextureRegion> getHeartLossAnimation() {
+        return heartLossAnimation;
     }
 
     public Skin getSkin() {

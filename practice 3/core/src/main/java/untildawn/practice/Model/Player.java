@@ -9,7 +9,8 @@ public class Player {
     private Sprite sprite;
     private float x = 0;
     private float y = 0;
-    private float HP;
+    private int MaxHP;
+    private int HP;
     private final float speed;
     private float animationTime = 0;
     private CollisionRect rect ;
@@ -25,6 +26,7 @@ public class Player {
         sprite.setPosition((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
         sprite.setSize((float) texture.getWidth() /5 , (float) texture.getHeight() /5 );
         rect = new CollisionRect((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight()/2, (float) texture.getWidth() /5 , (float) texture.getHeight() /5);
+        MaxHP = GameAssetManager.getHero().HP;
         HP = GameAssetManager.getHero().HP;
         speed = GameAssetManager.getHero().Speed;
         }
@@ -43,10 +45,10 @@ public class Player {
         this.y = y;
     }
 
-    public float getHP() {
+    public int getHP() {
         return HP;
     }
-    public void setHP(float HP) {
+    public void setHP(int HP) {
         this.HP = HP;
     }
 
@@ -98,4 +100,7 @@ public class Player {
         return facingRight;
     }
 
+    public int getMaxHP() {
+        return MaxHP;
+    }
 }
