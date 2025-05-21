@@ -4,10 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import untildawn.practice.Controller.HUDs.AmmoCounterController;
-import untildawn.practice.Controller.HUDs.HealthBarController;
-import untildawn.practice.Controller.HUDs.KillCounterController;
-import untildawn.practice.Controller.HUDs.TimeCounterController;
+import untildawn.practice.Controller.HUDs.*;
 import untildawn.practice.Main;
 import untildawn.practice.Model.GameAssetManager;
 import untildawn.practice.Model.Player;
@@ -23,6 +20,7 @@ public class GameController {
     private AmmoCounterController ammoCounterController;
     private TimeCounterController timeCounterController;
     private KillCounterController killCounterController;
+    private XPLevelController xpLevelController;
     private Skin skin = GameAssetManager.getManager().getSkin();
     private float TotalTime = 0;
     private float EndTime = 360;
@@ -39,6 +37,7 @@ public class GameController {
         playerController.worldController = worldController;
         timeCounterController = new TimeCounterController(skin, EndTime);
         killCounterController = new KillCounterController(skin);
+        xpLevelController = new XPLevelController(skin);
         setCustomCursor();
     }
 
@@ -56,6 +55,7 @@ public class GameController {
             timeCounterController.render(Main.getBatch());
             healthBarController.render(Main.getBatch());
             ammoCounterController.render(Main.getBatch());
+            xpLevelController.render(Main.getBatch(), playerController.getPlayer());
         }
         TotalTime += Gdx.graphics.getDeltaTime();
     }

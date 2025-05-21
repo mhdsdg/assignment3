@@ -9,8 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 public class KillCounterController {
     private BitmapFont killFont;
     private int killCount;
-    private float padding = 20f;
-    private float fontSize = 32f; // Slightly smaller than time/ammo counters
+    private float padding = 40f;
 
     public KillCounterController(Skin skin) {
         initFont(skin);

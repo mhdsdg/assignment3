@@ -123,6 +123,14 @@ public class Player {
         this.level = level;
     }
 
+    public int getXpNeeded(){
+        return level*20;
+    }
+
+    public int getThisLevelXp(){
+        return xp ;
+    }
+
     public void addXP(int i) {
         xp += i ;
         if(xp >= level*20){
