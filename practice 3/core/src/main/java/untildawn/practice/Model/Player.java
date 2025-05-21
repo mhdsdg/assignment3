@@ -11,11 +11,10 @@ public class Player {
     private float y = 0;
     private float HP;
     private final float speed;
-    private float time = 0;
-    private CollisionRect rect ;
     private float animationTime = 0;
+    private CollisionRect rect ;
     private boolean facingRight = true;
-    private float walkStateTime = 0;
+
 
     private boolean idle = true;
     private boolean walking = false;
@@ -24,8 +23,8 @@ public class Player {
         texture = GameAssetManager.getCharacterTexture();
         sprite = new Sprite(texture);
         sprite.setPosition((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
-        sprite.setSize(texture.getWidth()/5 , texture.getHeight()/5 );
-        rect = new CollisionRect((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight()/2, texture.getWidth()/5 , texture.getHeight()/5);
+        sprite.setSize((float) texture.getWidth() /5 , (float) texture.getHeight() /5 );
+        rect = new CollisionRect((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight()/2, (float) texture.getWidth() /5 , (float) texture.getHeight() /5);
         HP = GameAssetManager.getHero().HP;
         speed = GameAssetManager.getHero().Speed;
         }
@@ -81,35 +80,12 @@ public class Player {
         this.walking = walking;
     }
 
-    public float getTime() {
-        return time;
-    }
-
-    public void setTime(float time) {
-        this.time = time;
-    }
-
-    public void update(float deltaTime) {
-        animationTime += deltaTime;
-
-        // Update sprite position based on x,y coordinates
-        sprite.setPosition(x, y);
-        rect.move(x, y);
-
-        // Update walking animation timer if walking
-        if (walking) {
-            walkStateTime += deltaTime;
-        } else {
-            walkStateTime = 0;
-        }
-    }
-
     public float getAnimationTime() {
         return animationTime;
     }
 
-    public boolean isFacingRight() {
-        return facingRight;
+    public void setAnimationTime(float animationTime) {
+        this.animationTime = animationTime;
     }
 
     public void setFacingRight(boolean facingRight) {
@@ -118,8 +94,8 @@ public class Player {
             sprite.flip(true, false);
         }
     }
-
-    public float getWalkStateTime() {
-        return walkStateTime;
+    public boolean isFacingRight() {
+        return facingRight;
     }
+
 }

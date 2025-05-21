@@ -11,11 +11,13 @@ public class Bullet {
     private final int damage;
     private int x;
     private int y;
+    private CollisionRect rect;
 
     public Bullet(Weapon weapon,int x,int y) {
-        sprite.setSize(20 , 20);
+        sprite.setSize(20, 20);
         sprite.setX((float) Gdx.graphics.getWidth() / 2);
         sprite.setY((float) Gdx.graphics.getHeight() / 2);
+        rect = new CollisionRect(x,y, 5, 5);
         this.weapon = weapon;
         this.x = x;
         this.y = y;
@@ -49,5 +51,13 @@ public class Bullet {
 
     public Weapon getWeapon() {
         return weapon;
+    }
+
+    public CollisionRect getRect() {
+        return rect;
+    }
+
+    public void setRect(CollisionRect rect) {
+        this.rect = rect;
     }
 }

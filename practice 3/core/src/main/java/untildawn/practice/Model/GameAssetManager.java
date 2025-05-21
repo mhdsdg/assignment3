@@ -6,10 +6,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Array;
 import untildawn.practice.Model.Enum.Heros.Hero;
 import untildawn.practice.Model.Enum.Weapons.Weapons;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +27,11 @@ public class GameAssetManager {
     private static Texture weaponTexture = new Texture(weapon.stillAddress);
     private static Animation<TextureRegion> weaponReloadAnimation = makeWeaponReloadAnimation();
 
+    private static TextureRegion TreeTexture ;
+    private static Animation<TextureRegion> TreeAnimation = makeTreeAnimation();
+
+
+
     private static Texture bulletTexture = new Texture(Gdx.files.internal("bullet.png"));
 
     private final Skin skin = new Skin(Gdx.files.internal("skin/quantumSkinRed.json"));
@@ -36,6 +41,16 @@ public class GameAssetManager {
              manager = new GameAssetManager();
         }
         return manager;
+    }
+
+    private static Animation<TextureRegion> makeTreeAnimation() {
+        TextureRegion[][] tmp = TextureRegion.split(new Texture("Monsters/TreeSpriteSheet.png"),96,96);
+        TextureRegion[] frames = new TextureRegion[3];
+        for(int i = 0 ; i < 3 ; i++) {
+            frames[i] = tmp[0][i];
+        }
+        TreeTexture = frames[0];
+        return new Animation<>(0.1f, frames);
     }
 
     public static Weapons getWeapon() {
@@ -49,14 +64,14 @@ public class GameAssetManager {
     }
 
     private static Animation<TextureRegion> makeWeaponReloadAnimation() {
-        FileHandle[] reloadFrames = Gdx.files.internal(weapon.animationAddress).list();
-        TextureRegion[] reloadRegions = new TextureRegion[reloadFrames.length];
-        for(int i = 0; i < reloadFrames.length; i++) {
-            reloadRegions[i] = new TextureRegion(new Texture(reloadFrames[i]));
+        TextureRegion[][] tmp = TextureRegion.split(new Texture(weapon.animationAddress),32,32);
+        TextureRegion[] frames = new TextureRegion[4];
+        for(int i = 0 ; i < 4 ; i++) {
+            frames[i] = tmp[0][i];
         }
-        float timeBetweenFrames = ((float) weapon.reloadTime)/(reloadFrames.length-1);
-        return new Animation<>(timeBetweenFrames, reloadRegions);
+        return new Animation<>(0.1f, frames);
     }
+
 
     public static Animation<TextureRegion> getWeaponReloadAnimation() {
         return weaponReloadAnimation;
@@ -142,6 +157,22 @@ public class GameAssetManager {
 
     public static void setCharacterTexture(Texture characterTexture) {
         GameAssetManager.characterTexture = characterTexture;
+    }
+
+    public static TextureRegion getTreeTexture() {
+        return TreeTexture;
+    }
+
+    public static void setTreeTexture(TextureRegion treeTexture) {
+        TreeTexture = treeTexture;
+    }
+
+    public static Animation<TextureRegion> getTreeAnimation() {
+        return TreeAnimation;
+    }
+
+    public static void setTreeAnimation(Animation<TextureRegion> treeAnimation) {
+        TreeAnimation = treeAnimation;
     }
 
     public Skin getSkin() {

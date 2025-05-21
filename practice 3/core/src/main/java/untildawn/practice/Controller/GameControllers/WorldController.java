@@ -1,6 +1,7 @@
 package untildawn.practice.Controller.GameControllers;
 
 import untildawn.practice.Main;
+import untildawn.practice.Model.Player;
 import untildawn.practice.Model.World;
 
 public class WorldController {
@@ -13,7 +14,6 @@ public class WorldController {
         this.playerController = playerController;
         this.world = new World();
     }
-
 
     public void update() {
         backgroundX = playerController.getPlayer().getX();
@@ -43,5 +43,9 @@ public class WorldController {
 
     public void setWorld(World world) {
         this.world = world;
+    }
+
+    public Player getPlayer() {
+        return playerController.getPlayer();
     }
 }

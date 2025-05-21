@@ -1,8 +1,6 @@
 package untildawn.practice.Controller.GameControllers;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import untildawn.practice.Main;
@@ -17,34 +15,44 @@ public class PlayerController {
     }
 
     public void update() {
-        player.getSprite().draw(Main.getBatch());
-
-        if(player.isIdle()){
-            idleAnimation();
-        }
         if(player.isWalking()){
             walkAnimation();
+        } else if(player.isIdle()){
+            idleAnimation();
         }
+
+        player.getSprite().draw(Main.getBatch());
 
         handlePlayerInput();
     }
 
+
     private void handlePlayerInput() {
-        if (Gdx.input.isKeyPressed(ControlKeys.GO_UP.getKeyCode())){
+        boolean isWalking = false;
+
+        if (Gdx.input.isKeyPressed(ControlKeys.GO_UP.getKeyCode())) {
             player.setY(player.getY() - player.getSpeed());
+            isWalking = true;
         }
-        if (Gdx.input.isKeyPressed(ControlKeys.GO_RIGHT.getKeyCode())){
+        if (Gdx.input.isKeyPressed(ControlKeys.GO_RIGHT.getKeyCode())) {
             player.setX(player.getX() - player.getSpeed());
+            player.setFacingRight(true);
+            isWalking = true;
         }
-        if (Gdx.input.isKeyPressed(ControlKeys.GO_DOWN.getKeyCode())){
+        if (Gdx.input.isKeyPressed(ControlKeys.GO_DOWN.getKeyCode())) {
             player.setY(player.getY() + player.getSpeed());
+            isWalking = true;
         }
-        if (Gdx.input.isKeyPressed(ControlKeys.GO_LEFT.getKeyCode())){
+        if (Gdx.input.isKeyPressed(ControlKeys.GO_LEFT.getKeyCode())) {
             player.setX(player.getX() + player.getSpeed());
-            player.getSprite().flip(true, false);
+            player.setFacingRight(false);
+            isWalking = true;
         }
 
+        player.setWalking(isWalking);
+        player.setIdle(!isWalking);
     }
+
 
     private void idleAnimation() {
         Animation animation = GameAssetManager.getIdleAnimation();
@@ -58,15 +66,22 @@ public class PlayerController {
     }
 
     private void doAnimation(Animation<TextureRegion> animation) {
-        player.getSprite().setRegion(animation.getKeyFrame(player.getTime()));
-        if (!animation.isAnimationFinished(player.getTime())) {
-            player.setTime(player.getTime() + Gdx.graphics.getDeltaTime());
+        TextureRegion frame = animation.getKeyFrame(player.getAnimationTime());
+        if (player.isFacingRight() && frame.isFlipX()) {
+            frame.flip(true, false);
         }
-        else {
-            player.setTime(0);
+        else if (!player.isFacingRight() && !frame.isFlipX()) {
+            frame.flip(true, false);
+        }
+        player.getSprite().setRegion(frame);
+        if (!animation.isAnimationFinished(player.getAnimationTime())) {
+            player.setAnimationTime(player.getAnimationTime() + Gdx.graphics.getDeltaTime());
+        } else {
+            player.setAnimationTime(0);
         }
         animation.setPlayMode(Animation.PlayMode.LOOP);
     }
+
 
     public Player getPlayer() {
         return player;

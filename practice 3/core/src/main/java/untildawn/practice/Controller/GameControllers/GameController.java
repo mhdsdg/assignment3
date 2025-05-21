@@ -8,12 +8,14 @@ public class GameController {
     private WorldController worldController;
     private PlayerController playerController;
     private WeaponController weaponController;
+    private MonsterController monsterController;
 
     public void setView(GameView view){
         this.view = view;
         playerController = new PlayerController(new Player());
         weaponController = new WeaponController(new BulletController());
         worldController = new WorldController(playerController);
+        monsterController = new MonsterController(worldController, getWeaponController().bulletController);
     }
 
     public void updateGame() {
@@ -21,6 +23,7 @@ public class GameController {
             worldController.update();
             playerController.update();
             weaponController.update();
+            monsterController.update();
         }
     }
 

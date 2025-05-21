@@ -5,5 +5,7 @@ import untildawn.practice.Model.Bullet;
 import java.util.ArrayList;
 
 public class BulletController {
-    ArrayList<Bullet> bullets = new ArrayList<>();
+    public ArrayList<Bullet> bullets = new ArrayList<>();
+
+
 }

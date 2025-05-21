@@ -1,30 +1,99 @@
 package untildawn.practice.Controller.GameControllers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import untildawn.practice.Main;
 import untildawn.practice.Model.*;
+import untildawn.practice.Model.Enum.Weapons.Weapons;
 
 public class WeaponController {
     BulletController bulletController;
+    Weapon[] weapons = new Weapon[3];
     Weapon weapon ;
 
+
     public WeaponController(BulletController bulletController) {
-        weapon = new Weapon();
+        weapons[0] = new Weapon();
+        GameAssetManager.setWeapon(Weapons.Shotgun);
+        weapons[1] = new Weapon();
+        GameAssetManager.setWeapon(Weapons.SMG);
+        weapons[2] = new Weapon();
+        weapon = weapons[0];
         this.bulletController = bulletController;
     }
 
     public void update() {
+        handleReload();
+        handleSwapWeapon();
+
+        if (weapon.isReloading()) {
+            doReloadAnimation();
+        }
+
         weapon.getSprite().draw(Main.getBatch());
         updateBullets();
     }
 
+    private void handleSwapWeapon() {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
+            weapon = weapons[0];
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
+            weapon = weapons[1];
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) {
+            weapon = weapons[2];
+        }
+    }
+
     public void handleWeaponShoot(int x, int y) {
+        if(weapon.isReloading())return;
+        if(weapon.getAmmoInMag() <= 0)return;
         bulletController.bullets.add(new Bullet(weapon, x, y));
+        if(weapon.getDetails().projectile > 1) {
+            for (int i = weapon.getDetails().projectile - 6; i < weapon.getDetails().projectile - 2; i++) {
+                bulletController.bullets.add(new Bullet(weapon, x - 10 * i, y + 10 * i));
+            }
+        }
         weapon.setAmmoInMag(weapon.getAmmoInMag() - 1);
     }
+
+    private void handleReload() {
+        if (Gdx.input.isKeyJustPressed(com.badlogic.gdx.Input.Keys.R) && weapon.getAmmoInMag() < weapon.getMagSize()) {
+            if (!weapon.isReloading() && weapon.getAmmoInMag() < weapon.getMagSize()) {
+                weapon.setReloading(true);
+                weapon.setReloadTimer(0);
+            }
+        }
+
+        if (weapon.isReloading()) {
+            weapon.setReloadTimer(weapon.getReloadTimer() + Gdx.graphics.getDeltaTime());
+
+            if (weapon.getReloadTimer() >= weapon.reloadDuration()) {
+                int neededAmmo = weapon.getMagSize() - weapon.getAmmoInMag();
+                weapon.setAmmoInMag(weapon.getAmmoInMag() + neededAmmo);
+                weapon.getSprite().setRegion(weapon.getTexture());
+                weapon.setReloading(false);
+            }
+        }
+    }
+
+    private void doReloadAnimation() {
+        Animation<TextureRegion> animation = weapon.getReloadAnimation();
+
+        if (animation != null) {
+            TextureRegion frame = animation.getKeyFrame(weapon.getReloadTimer(), true);
+            // Update the sprite's region and maintain its current position and rotation
+            weapon.getSprite().setRegion(frame);
+            weapon.getSprite().setSize(frame.getRegionWidth()*1.5f, frame.getRegionHeight()*1.5f);
+        }
+    }
+
 
     public BulletController getBulletController() {
         return bulletController;
@@ -52,6 +121,8 @@ public class WeaponController {
 
             b.getSprite().setX(b.getSprite().getX() - direction.x * 5);
             b.getSprite().setY(b.getSprite().getY() + direction.y * 5);
+            b.getRect().move(b.getSprite().getX() - direction.x * 5,
+                             b.getSprite().getY() + direction.y * 5);
         }
     }
 }

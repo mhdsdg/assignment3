@@ -1,9 +1,9 @@
 package untildawn.practice.Model.Enum.Weapons;
 
 public enum Weapons {
-    Revolver(20, 1, 1, 6, "Weapons/RevolverStill.png", "Weapons/RevolverReload"),
-    Shotgun(10, 4, 1, 2, "Weapons/ShotgunStill.png", "Weapons/ShotgunReloead"),
-    SMG(8, 1, 2, 24, "Weapons/SMGStill.png", "Weapons/SMGReload"),
+    Revolver(20, 1, 1, 6, "Weapons/RevolverStill.png", "Weapons/RevolverReload/T_Revolver_SS.png"),
+    Shotgun(10, 4, 1, 2, "Weapons/ShotgunStill.png", "Weapons/ShotgunReload/T_Revolver_SS.png"),
+    SMG(8, 1, 2, 24, "Weapons/SMGStill.png", "Weapons/SMGReload/T_Revolver_SS.png"),
     ;
 
     final public int damage, projectile, reloadTime, magSize;
