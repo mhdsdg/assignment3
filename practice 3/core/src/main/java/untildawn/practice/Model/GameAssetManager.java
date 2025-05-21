@@ -41,6 +41,8 @@ public class GameAssetManager {
     private static Animation<TextureRegion> eyeBatAnimation = makeEyeBatAnimation();
 
     private static Texture bulletTexture = new Texture(Gdx.files.internal("bullet.png"));
+    private static Texture XPTexture = new Texture(Gdx.files.internal("xp.png"));
+    private static Texture EnemyBulletTexture = new Texture(Gdx.files.internal("EyeMonsterProjecitle.png"));
 
     private final Skin skin = new Skin(Gdx.files.internal("skin/quantumSkinRed.json"));
 
@@ -244,6 +246,38 @@ public class GameAssetManager {
 
     public static Animation<TextureRegion> getHeartLossAnimation() {
         return heartLossAnimation;
+    }
+
+    public static TextureRegion getEyeBatTexture() {
+        return eyeBatTexture;
+    }
+
+    public static void setEyeBatTexture(TextureRegion eyeBatTexture) {
+        GameAssetManager.eyeBatTexture = eyeBatTexture;
+    }
+
+    public static Animation<TextureRegion> getEyeBatAnimation() {
+        return eyeBatAnimation;
+    }
+
+    public static void setEyeBatAnimation(Animation<TextureRegion> eyeBatAnimation) {
+        GameAssetManager.eyeBatAnimation = eyeBatAnimation;
+    }
+
+    public static Texture getXPTexture() {
+        return XPTexture;
+    }
+
+    public static void setXPTexture(Texture XPTexture) {
+        GameAssetManager.XPTexture = XPTexture;
+    }
+
+    public static Texture getEnemyBulletTexture() {
+        return EnemyBulletTexture;
+    }
+
+    public static void setEnemyBulletTexture(Texture enemyBulletTexture) {
+        EnemyBulletTexture = enemyBulletTexture;
     }
 
     public Skin getSkin() {

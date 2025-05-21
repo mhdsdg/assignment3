@@ -13,7 +13,7 @@ public class HealthBarController {
     private TextureRegion heartEmpty = GameAssetManager.getHeartEmpty();
     private Animation<TextureRegion> heartLossAnimation = GameAssetManager.getHeartLossAnimation();
     private Player player;
-    private float heartSize = 32f;
+    private float heartSize = 60f;
     private float padding = 10f;
 
     // Track animation states for each heart

@@ -24,6 +24,7 @@ public class MonsterController {
     private Elder elder;
 
     private float tentacleSpawnTimer = 0;
+    private float eyeBatSpawnTimer = 0;
     private float totalTime = 0;
     private Random random = new Random();
 
@@ -32,6 +33,7 @@ public class MonsterController {
         this.bulletController = bulletController;
         putTrees();
         this.tentacles = new ArrayList<>();
+        putEyeBats();
     }
 
     public void putTrees() {
@@ -52,9 +54,8 @@ public class MonsterController {
             trees.add(new Tree(x, y));
         }
     }
-    public void putTentacles() {
-        tentacles = new ArrayList<>();
-        tentacles.add(new Tentacle(Gdx.graphics.getWidth()/2 + 200, Gdx.graphics.getHeight()/2 + 200));
+    public void putEyeBats() {
+        eyeBats.add(new EyeBat((float) Gdx.graphics.getWidth() /2 + 200, (float) Gdx.graphics.getHeight() /2 + 200));
     }
 
     public void update(){
@@ -65,8 +66,10 @@ public class MonsterController {
             tree.getSprite().draw(Main.getBatch());
             tree.getRect().move(tree.getSprite().getX(), tree.getSprite().getY());
         }
+        //check spawn
         totalTime += Gdx.graphics.getDeltaTime();
         tentacleSpawnTimer += Gdx.graphics.getDeltaTime();
+        eyeBatSpawnTimer += Gdx.graphics.getDeltaTime();
         if (tentacleSpawnTimer >= 3f) { // Every 3 seconds
             int tentaclesToSpawn = (int)(totalTime / 30f);
             for (int i = 0; i < tentaclesToSpawn; i++) {
@@ -74,17 +77,56 @@ public class MonsterController {
             }
             tentacleSpawnTimer = 0;
         }
+        if(totalTime >= 60f && eyeBatSpawnTimer >= 10f){
+            int eyeBatsToSpawn = (int)((6 * totalTime - 360 + 30) / 30);
+            for (int i = 0; i < eyeBatsToSpawn; i++) {
+                spawnEyeBatAwayFromPlayer(worldController.getPlayerWorldX(), worldController.getPlayerWorldY());
+            }
+            eyeBatSpawnTimer = 0;
+        }
 
         for (Tentacle tentacle : tentacles) {
             tentacle.update(Gdx.graphics.getDeltaTime(), worldController.getPlayerWorldX(), worldController.getPlayerWorldY());
 
             float offsetX = worldController.getPlayerWorldX() - Gdx.graphics.getWidth() / 2f;
             float offsetY = worldController.getPlayerWorldY() - Gdx.graphics.getHeight() / 2f;
-
             tentacle.draw(offsetX, offsetY);
+        }
+        for (EyeBat bat : eyeBats) {
+            bat.update(Gdx.graphics.getDeltaTime(), worldController.getPlayerWorldX(), worldController.getPlayerWorldY());
+            float offsetX = worldController.getPlayerWorldX() - Gdx.graphics.getWidth() / 2f;
+            float offsetY = worldController.getPlayerWorldY() - Gdx.graphics.getHeight() / 2f;
+            bat.draw(offsetX, offsetY);
         }
         checkHit();
 
+    }
+
+    private void spawnEyeBatAwayFromPlayer(float playerX, float playerY) {
+        Texture backgroundTexture = worldController.getWorld().getBackgroundTexture();
+        float minDistance = 300f; // Minimum distance from player to spawn
+
+        float x, y;
+        int attempts = 0;
+        int maxAttempts = 10;
+
+        do {
+            // Random position within world bounds
+            x = random.nextFloat() * backgroundTexture.getWidth();
+            y = random.nextFloat() * backgroundTexture.getHeight();
+            attempts++;
+
+            // Give up after max attempts to avoid infinite loop
+            if (attempts >= maxAttempts) {
+                // Fallback position at edge of minimum distance circle
+                float angle = random.nextFloat() * (float)Math.PI * 2;
+                x = playerX + (float)Math.cos(angle) * minDistance;
+                y = playerY + (float)Math.sin(angle) * minDistance;
+                break;
+            }
+        } while (Math.sqrt(Math.pow(x - playerX, 2) + Math.pow(y - playerY, 2)) < minDistance);
+
+        eyeBats.add(new EyeBat(x, y));
     }
 
     private void spawnTentacleAwayFromPlayer(float playerX, float playerY) {
@@ -134,6 +176,19 @@ public class MonsterController {
             bulletController.bullets.removeIf(bullet -> {
                 if (tentacle.getRect().collidesWith(bullet.getRect())) {
                     tentacle.setHP(tentacle.getHP() - bullet.getDamage());
+                    return true;
+                }
+                return false;
+            });
+
+            return false;
+        });
+        eyeBats.removeIf(bat -> {
+            if (bat.getHP() <= 0) return true;
+
+            bulletController.bullets.removeIf(bullet -> {
+                if (bat.getRect().collidesWith(bullet.getRect())) {
+                    bat.setHP(bat.getHP() - bullet.getDamage());
                     return true;
                 }
                 return false;

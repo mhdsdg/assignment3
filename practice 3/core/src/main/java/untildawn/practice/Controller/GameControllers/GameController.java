@@ -14,6 +14,7 @@ public class GameController {
     private MonsterController monsterController;
     private HealthBarController healthBarController;
     private float TotalTime = 0;
+    private float EndTime = 360;
 
     public void setView(GameView view){
         this.view = view;
