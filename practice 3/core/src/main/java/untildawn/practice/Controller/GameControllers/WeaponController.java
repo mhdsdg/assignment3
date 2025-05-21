@@ -119,10 +119,10 @@ public class WeaponController {
                 Gdx.graphics.getHeight()/2f - b.getY()
             ).nor();
 
-            b.getSprite().setX(b.getSprite().getX() - direction.x * 5);
-            b.getSprite().setY(b.getSprite().getY() + direction.y * 5);
-            b.getRect().move(b.getSprite().getX() - direction.x * 5,
-                             b.getSprite().getY() + direction.y * 5);
+            b.getSprite().setX(b.getSprite().getX() - direction.x * 6);
+            b.getSprite().setY(b.getSprite().getY() + direction.y * 6);
+            b.getRect().move(b.getSprite().getX() - direction.x * 6,
+                             b.getSprite().getY() + direction.y * 6);
         }
     }
 }

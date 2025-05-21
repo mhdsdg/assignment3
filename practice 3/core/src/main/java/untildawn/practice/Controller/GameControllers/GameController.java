@@ -1,5 +1,6 @@
 package untildawn.practice.Controller.GameControllers;
 
+import com.badlogic.gdx.Gdx;
 import untildawn.practice.Model.Player;
 import untildawn.practice.View.GameView;
 
@@ -9,6 +10,7 @@ public class GameController {
     private PlayerController playerController;
     private WeaponController weaponController;
     private MonsterController monsterController;
+    private float TotalTime = 0;
 
     public void setView(GameView view){
         this.view = view;
@@ -25,6 +27,7 @@ public class GameController {
             weaponController.update();
             monsterController.update();
         }
+        TotalTime += Gdx.graphics.getDeltaTime();
     }
 
     public WorldController getWorldController() {

@@ -16,6 +16,7 @@ public class Tree {
     private float y;
     private CollisionRect rect;
     private float HP = 40;
+    private float stateTime = 0;
 
     public Tree(float x, float y) {
         this.x = x;
@@ -24,11 +25,12 @@ public class Tree {
         sprite.setSize(80, 80);
         rect = new CollisionRect(x , y , 80 , 80);
 
-        doAnimation();
+        animation.setPlayMode(Animation.PlayMode.LOOP);
     }
 
-    public void doAnimation() {
-        animation.setPlayMode(Animation.PlayMode.LOOP);
+    public void update(float delta) { // Add this method
+        stateTime += delta;
+        sprite.setRegion(animation.getKeyFrame(stateTime));
     }
 
     public Sprite getSprite() {

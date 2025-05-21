@@ -30,6 +30,9 @@ public class GameAssetManager {
     private static TextureRegion TreeTexture ;
     private static Animation<TextureRegion> TreeAnimation = makeTreeAnimation();
 
+    private static TextureRegion TentacleTexture ;
+    private static Animation<TextureRegion> TentacleAnimation = makeTentacleAnimation();
+
 
 
     private static Texture bulletTexture = new Texture(Gdx.files.internal("bullet.png"));
@@ -50,8 +53,18 @@ public class GameAssetManager {
             frames[i] = tmp[0][i];
         }
         TreeTexture = frames[0];
+        return new Animation<>(0.5f, frames);
+    }
+    private static Animation<TextureRegion> makeTentacleAnimation() {
+        TextureRegion[][] tmp = TextureRegion.split(new Texture("Monsters/T_TentacleEnemy.png"),64,64);
+        TextureRegion[] frames = new TextureRegion[4];
+        for(int i = 0 ; i < 4 ; i++) {
+            frames[i] = tmp[2][i];
+        }
+        TentacleTexture = frames[0];
         return new Animation<>(0.1f, frames);
     }
+
 
     public static Weapons getWeapon() {
         return weapon;
@@ -173,6 +186,18 @@ public class GameAssetManager {
 
     public static void setTreeAnimation(Animation<TextureRegion> treeAnimation) {
         TreeAnimation = treeAnimation;
+    }
+
+    public static TextureRegion getTentacleTexture() {
+        return TentacleTexture;
+    }
+
+    public static void setTentacleTexture(TextureRegion tentacleTexture) {
+        TentacleTexture = tentacleTexture;
+    }
+
+    public static Animation<TextureRegion> getTentacleAnimation() {
+        return TentacleAnimation;
     }
 
     public Skin getSkin() {
