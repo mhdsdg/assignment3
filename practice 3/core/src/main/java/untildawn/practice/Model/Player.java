@@ -3,21 +3,29 @@ package untildawn.practice.Model;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import untildawn.practice.Controller.GameControllers.PlayerController;
+import untildawn.practice.Controller.GameControllers.WeaponController;
+import untildawn.practice.Model.Abilities.*;
+
+import java.util.ArrayList;
 
 public class Player {
+    public WeaponController weaponController;
+    public PlayerController playerController;
     private Texture texture;
     private Sprite sprite;
     private float x = 0;
     private float y = 0;
     private int MaxHP;
     private int HP;
-    private final float speed;
+    private float speed;
     private float animationTime = 0;
     private CollisionRect rect ;
     private boolean facingRight = true;
     private int xp;
     private int level = 1;
     private int killCount;
+    private ArrayList<Ability> abilities = new ArrayList<>();
 
 
     private boolean idle = true;
@@ -107,6 +115,10 @@ public class Player {
         return MaxHP;
     }
 
+    public void setMaxHP(int MaxHP) {
+        this.MaxHP = MaxHP;
+    }
+
     public int getXp() {
         return xp;
     }
@@ -145,5 +157,9 @@ public class Player {
 
     public void setKillCount(int killCount) {
         this.killCount = killCount;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
     }
 }

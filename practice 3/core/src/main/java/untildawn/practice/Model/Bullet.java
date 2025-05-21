@@ -21,7 +21,7 @@ public class Bullet {
         this.weapon = weapon;
         this.x = x;
         this.y = y;
-        this.damage = weapon.getDetails().damage;
+        this.damage = weapon.getDamage();
     }
 
     public Sprite getSprite() {

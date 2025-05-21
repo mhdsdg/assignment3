@@ -17,6 +17,10 @@ public class PlayerController {
     Player player;
     MonsterController monsterController;
     WorldController worldController;
+
+    private float speedBoostTimer;
+    private boolean speedIsBoosted;
+
     public PlayerController(Player player) {
         this.player = player;
     }
@@ -31,6 +35,14 @@ public class PlayerController {
         timeSinceLastHit += Gdx.graphics.getDeltaTime();
         if(timeSinceLastHit >= 2.0f){
             checkHit();
+        }
+        if(speedIsBoosted){
+            speedBoostTimer += Gdx.graphics.getDeltaTime();
+            if(speedBoostTimer >= 10.0f){
+                speedIsBoosted = false;
+                speedBoostTimer = 0.0f;
+                player.setSpeed(player.getSpeed()/2);
+            }
         }
         checkXP();
 
@@ -134,5 +146,20 @@ public class PlayerController {
 
     public Player getPlayer() {
         return player;
+    }
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+    public float getSpeedBoostTimer(){
+        return speedBoostTimer;
+    }
+    public void setSpeedBoostTimer(float speedBoostTimer){
+        this.speedBoostTimer = speedBoostTimer;
+    }
+    public boolean isSpeedBoosted(){
+        return speedIsBoosted;
+    }
+    public void setSpeedIsBoosted(boolean speedIsBoosted){
+        this.speedIsBoosted = speedIsBoosted;
     }
 }

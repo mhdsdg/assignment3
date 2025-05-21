@@ -13,8 +13,10 @@ import untildawn.practice.Model.Enum.Weapons.Weapons;
 
 public class WeaponController {
     BulletController bulletController;
-    Weapon[] weapons = new Weapon[3];
-    Weapon weapon ;
+    public Weapon[] weapons = new Weapon[3];
+    public Weapon weapon ;
+    public boolean weaponIsBoosted;
+    public float weaponBoostTimer;
 
 
     public WeaponController(BulletController bulletController) {
@@ -34,6 +36,16 @@ public class WeaponController {
         if (weapon.isReloading()) {
             doReloadAnimation();
         }
+        if(weaponIsBoosted){
+            weaponBoostTimer += Gdx.graphics.getDeltaTime();
+            if(weaponBoostTimer >= 10){
+                weaponIsBoosted = false;
+                for (Weapon weapon : weapons) {
+                    weapon.setDamage(weapon.getDamage()*8/10);
+                }
+                weaponBoostTimer = 0;
+            }
+        }
 
         weapon.getSprite().draw(Main.getBatch());
         updateBullets();
@@ -52,14 +64,32 @@ public class WeaponController {
     }
 
     public void handleWeaponShoot(int x, int y) {
-        if(weapon.isReloading())return;
-        if(weapon.getAmmoInMag() <= 0)return;
-        bulletController.bullets.add(new Bullet(weapon, x, y));
-        if(weapon.getDetails().projectile > 1) {
-            for (int i = weapon.getDetails().projectile - 6; i < weapon.getDetails().projectile - 2; i++) {
-                bulletController.bullets.add(new Bullet(weapon, x - 10 * i, y + 10 * i));
+        if(weapon.isReloading()) return;
+        if(weapon.getAmmoInMag() <= 0) return;
+
+        int projectiles = weapon.getProjectile();
+        float spreadAngle = 15f; // Degrees of spread between bullets
+        float baseAngle = (float) Math.atan2(y - Gdx.graphics.getHeight()/2f,
+            x - Gdx.graphics.getWidth()/2f);
+
+        // Calculate offsets based on projectile count
+        if (projectiles > 1) {
+            float startAngle = baseAngle - (spreadAngle * (projectiles - 1) / 2) * MathUtils.degreesToRadians;
+
+            for (int i = 0; i < projectiles; i++) {
+                float angle = startAngle + i * spreadAngle * MathUtils.degreesToRadians;
+                float offsetX = 35f * (float)Math.cos(angle);
+                float offsetY = 35f * (float)Math.sin(angle);
+
+                bulletController.bullets.add(new Bullet(weapon,
+                    x + (int)offsetX,
+                    y + (int)offsetY));
             }
+        } else {
+            // Single projectile
+            bulletController.bullets.add(new Bullet(weapon, x, y));
         }
+
         weapon.setAmmoInMag(weapon.getAmmoInMag() - 1);
     }
 

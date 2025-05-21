@@ -14,8 +14,11 @@ public class Weapon {
     private final Weapons details;
     private boolean reloading;
     private float reloadTimer;
+    private int damage;
+    private int projectile;
 
     private int ammoInMag;
+    private int magSize;
 
     public Weapon(){
         this.details = GameAssetManager.getWeapon();
@@ -26,6 +29,9 @@ public class Weapon {
         sprite.setSize(texture.getWidth()*3, texture.getHeight()*3);
         this.reloadAnimation = GameAssetManager.getWeaponReloadAnimation();
         this.ammoInMag = details.magSize;
+        this.magSize = details.magSize;
+        this.damage = details.damage;
+        this.projectile = details.projectile;
     }
 
     public int getAmmoInMag() {
@@ -69,7 +75,7 @@ public class Weapon {
     }
 
     public int getMagSize() {
-        return details.magSize;
+        return magSize;
     }
 
     public int reloadDuration() {
@@ -82,5 +88,25 @@ public class Weapon {
 
     public void setReloadTimer(float reloadTimer) {
         this.reloadTimer = reloadTimer;
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+
+    public int getProjectile() {
+        return projectile;
+    }
+
+    public void setProjectile(int projectile) {
+        this.projectile = projectile;
+    }
+
+    public void setMagSize(int magSize) {
+        this.magSize = magSize;
     }
 }

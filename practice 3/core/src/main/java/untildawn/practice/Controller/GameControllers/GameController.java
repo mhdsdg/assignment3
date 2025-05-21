@@ -28,8 +28,10 @@ public class GameController {
     public void setView(GameView view){
         this.view = view;
         playerController = new PlayerController(new Player());
+        playerController.player.playerController = playerController;
         healthBarController = new HealthBarController(playerController.getPlayer());
         weaponController = new WeaponController(new BulletController());
+        playerController.player.weaponController = weaponController;
         ammoCounterController = new AmmoCounterController(weaponController.weapon, skin);
         worldController = new WorldController(playerController);
         monsterController = new MonsterController(worldController, getWeaponController().bulletController);

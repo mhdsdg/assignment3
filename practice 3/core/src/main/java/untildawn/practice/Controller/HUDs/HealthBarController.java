@@ -41,6 +41,9 @@ public class HealthBarController {
     }
 
     public void update(float delta) {
+        if(player.getMaxHP() > heartAnimations.size) {
+            heartAnimations.add(new HeartAnimationState(player.getHP()));
+        }
         // Check for health changes
         if (player.getHP() < lastHealth) {
             // Find which heart(s) were lost
