@@ -9,6 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import untildawn.practice.Model.Enum.Heros.Hero;
 import untildawn.practice.Model.Enum.Weapons.Weapons;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +46,7 @@ public class GameAssetManager {
     private static Texture XPTexture = new Texture(Gdx.files.internal("xp.png"));
     private static Texture EnemyBulletTexture = new Texture(Gdx.files.internal("EyeMonsterProjecitle.png"));
 
-    private final Skin skin = new Skin(Gdx.files.internal("skin/quantumSkinRed.json"));
+    private final Skin skin = new Skin(Gdx.files.internal("skin/quantum-horizon-ui.json"));
 
     public static GameAssetManager getManager() {
         if(manager == null) {

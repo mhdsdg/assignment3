@@ -209,6 +209,7 @@ public class MonsterController {
     }
 
     private void dropXP(float x, float y) {
+        worldController.getPlayer().setKillCount(worldController.getPlayer().getKillCount() + 1);
         worldController.getXps().add(new XP(x,y));
     }
 

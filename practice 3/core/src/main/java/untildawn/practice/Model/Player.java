@@ -17,6 +17,7 @@ public class Player {
     private boolean facingRight = true;
     private int xp;
     private int level = 1;
+    private int killCount;
 
 
     private boolean idle = true;
@@ -128,5 +129,13 @@ public class Player {
             xp = xp - level*20;
             level++;
         }
+    }
+
+    public int getKillCount() {
+        return killCount;
+    }
+
+    public void setKillCount(int killCount) {
+        this.killCount = killCount;
     }
 }

@@ -1,5 +1,17 @@
 {
 com.badlogic.gdx.graphics.g2d.BitmapFont: {
+	ChevyRay_-_Express: {
+		file: ChevyRay - Express.fnt
+		scaledSize: 30
+		markupEnabled: false
+		flip: false
+	}
+	ChevyRay_-_Lantern: {
+		file: ChevyRay - Lantern.fnt
+		scaledSize: -1
+		markupEnabled: false
+		flip: false
+	}
 	font: {
 		file: font-export.fnt
 		scaledSize: -1
@@ -30,6 +42,12 @@ com.badlogic.gdx.graphics.Color: {
 		r: 0.93333334
 		g: 0.0627451
 		b: 0.1882353
+		a: 1
+	}
+	foreground: {
+		r: 0.39215687
+		g: 0.34509805
+		b: 0.34509805
 		a: 1
 	}
 	pressed: {
