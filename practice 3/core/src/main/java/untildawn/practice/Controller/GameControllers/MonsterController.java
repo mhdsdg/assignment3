@@ -9,6 +9,7 @@ import untildawn.practice.Model.Monsters.Elder;
 import untildawn.practice.Model.Monsters.EyeBat;
 import untildawn.practice.Model.Monsters.Tentacle;
 import untildawn.practice.Model.Monsters.Tree;
+import untildawn.practice.Model.XP;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -158,7 +159,10 @@ public class MonsterController {
 
     public void checkHit() {
         trees.removeIf(tree -> {
-            if (tree.getHP() <= 0) return true;
+            if (tree.getHP() <= 0) {
+                dropXP(tree.getX(), tree.getY());
+                return true;
+            }
 
             bulletController.bullets.removeIf(bullet -> {
                 if (tree.getRect().collidesWith(bullet.getRect())) {
@@ -171,7 +175,10 @@ public class MonsterController {
             return false;
         });
         tentacles.removeIf(tentacle -> {
-            if (tentacle.getHP() <= 0) return true;
+            if (tentacle.getHP() <= 0) {
+                dropXP(tentacle.getX(), tentacle.getY());
+                return true;
+            }
 
             bulletController.bullets.removeIf(bullet -> {
                 if (tentacle.getRect().collidesWith(bullet.getRect())) {
@@ -184,7 +191,10 @@ public class MonsterController {
             return false;
         });
         eyeBats.removeIf(bat -> {
-            if (bat.getHP() <= 0) return true;
+            if (bat.getHP() <= 0) {
+                dropXP(bat.getX(), bat.getY());
+                return true;
+            }
 
             bulletController.bullets.removeIf(bullet -> {
                 if (bat.getRect().collidesWith(bullet.getRect())) {
@@ -198,8 +208,8 @@ public class MonsterController {
         });
     }
 
-    private void handleTreeDeath(ArrayList<Tree> trees, Tree tree) {
-        trees.remove(tree);
+    private void dropXP(float x, float y) {
+        worldController.getXps().add(new XP(x,y));
     }
 
     public ArrayList<EyeBat> getEyeBats() {

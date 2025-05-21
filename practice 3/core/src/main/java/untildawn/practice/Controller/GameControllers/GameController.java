@@ -24,6 +24,7 @@ public class GameController {
         worldController = new WorldController(playerController);
         monsterController = new MonsterController(worldController, getWeaponController().bulletController);
         playerController.monsterController = monsterController;
+        playerController.worldController = worldController;
     }
 
     public void updateGame() {

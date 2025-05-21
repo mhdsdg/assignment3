@@ -1,18 +1,22 @@
 package untildawn.practice.Controller.GameControllers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import untildawn.practice.Main;
 import untildawn.practice.Model.Enum.ControlKeys;
 import untildawn.practice.Model.GameAssetManager;
+import untildawn.practice.Model.Monsters.EyeBat;
 import untildawn.practice.Model.Monsters.Tentacle;
 import untildawn.practice.Model.Monsters.Tree;
 import untildawn.practice.Model.Player;
+import untildawn.practice.Model.XP;
 
 public class PlayerController {
     Player player;
     MonsterController monsterController;
+    WorldController worldController;
     public PlayerController(Player player) {
         this.player = player;
     }
@@ -28,10 +32,21 @@ public class PlayerController {
         if(timeSinceLastHit >= 2.0f){
             checkHit();
         }
+        checkXP();
 
         player.getSprite().draw(Main.getBatch());
 
         handlePlayerInput();
+    }
+
+    private void checkXP() {
+        for (int i = 0; i < worldController.getXps().size(); i++) {
+            XP xp = worldController.getXps().get(i);
+            if(xp.getRect().collidesWith(player.getRect())){
+                player.addXP(3);
+                worldController.getXps().remove(xp);
+            }
+        }
     }
 
     private void checkHit() {
@@ -43,6 +58,12 @@ public class PlayerController {
         }
         for (Tentacle tentacle : monsterController.getTentacles()) {
             if(tentacle.getRect().collidesWith(player.getRect())){
+                isHit();
+                return;
+            }
+        }
+        for (EyeBat eyeBat : monsterController.getEyeBats()) {
+            if(eyeBat.getRect().collidesWith(player.getRect())){
                 isHit();
                 return;
             }

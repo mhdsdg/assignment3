@@ -121,4 +121,12 @@ public class Player {
     public void setLevel(int level) {
         this.level = level;
     }
+
+    public void addXP(int i) {
+        xp += i ;
+        if(xp >= level*20){
+            xp = xp - level*20;
+            level++;
+        }
+    }
 }

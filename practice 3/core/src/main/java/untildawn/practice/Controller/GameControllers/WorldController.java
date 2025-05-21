@@ -4,10 +4,14 @@ import com.badlogic.gdx.Gdx;
 import untildawn.practice.Main;
 import untildawn.practice.Model.Player;
 import untildawn.practice.Model.World;
+import untildawn.practice.Model.XP;
+
+import java.util.ArrayList;
 
 public class WorldController {
     private PlayerController playerController;
     private World world;
+    private ArrayList<XP> xps = new ArrayList<>();
     private float backgroundX = 0;
     private float backgroundY = 0;
 
@@ -20,6 +24,13 @@ public class WorldController {
         backgroundX = playerController.getPlayer().getX();
         backgroundY = playerController.getPlayer().getY();
         Main.getBatch().draw(world.getBackgroundTexture(), backgroundX, backgroundY);
+        for (XP xp : xps) {
+            float offsetX = getPlayerWorldX() - Gdx.graphics.getWidth() / 2f;
+            float offsetY = getPlayerWorldY() - Gdx.graphics.getHeight() / 2f;
+            xp.getSprite().setPosition(xp.getX() - offsetX, xp.getY() - offsetY);
+            xp.getRect().move(xp.getSprite().getX(), xp.getSprite().getY());
+            xp.getSprite().draw(Main.getBatch());
+        }
     }
 
     public float getPlayerWorldX() {
@@ -56,5 +67,13 @@ public class WorldController {
 
     public Player getPlayer() {
         return playerController.getPlayer();
+    }
+
+    public ArrayList<XP> getXps() {
+        return xps;
+    }
+
+    public void setXps(ArrayList<XP> xps) {
+        this.xps = xps;
     }
 }
