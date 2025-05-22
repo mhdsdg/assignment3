@@ -31,7 +31,9 @@ public class MainMenuController {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Main.getMain().getScreen().dispose();
-                Main.getMain().setScreen(new ProfileMenu(new ProfileMenuController(), GameAssetManager.getManager().getSkin()));
+                ProfileMenu profile = new ProfileMenu(new ProfileMenuController(), GameAssetManager.getManager().getSkin());
+                Main.getMain().setScreen(profile);
+                Main.setProfileMenu(profile);
             }
         };
     }

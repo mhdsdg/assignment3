@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import untildawn.practice.Controller.SignupMenuController;
 import untildawn.practice.Model.GameAssetManager;
+import untildawn.practice.View.ProfileMenu;
 import untildawn.practice.View.SignupMenu;
 
 
@@ -11,6 +12,16 @@ import untildawn.practice.View.SignupMenu;
 public class Main extends Game {
     private static Main main;
     private static SpriteBatch batch;
+    private static ProfileMenu profileMenu;
+
+    public static ProfileMenu getProfileMenu() {
+        return profileMenu;
+    }
+
+    public static void setProfileMenu(ProfileMenu menu) {
+        profileMenu = menu;
+    }
+
 
     public static Main getMain() {
         return main;
