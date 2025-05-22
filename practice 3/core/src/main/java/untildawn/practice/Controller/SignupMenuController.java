@@ -34,21 +34,24 @@ public class SignupMenuController {
             else{
                 User user = new User(view.getUsernameField().getText(), view.getPasswordField().getText());
                 App.getUsers().add(user);
-                if(view.getSecurityQuestionField().getText() != null) {
+                if(view.getSecurityQuestionField().getText().length()>1) {
                     user.setSecurityQuestion(view.getSecurityQuestionField().getText());
                 }
-                if(view.getSecurityAnswerField().getText() != null) {
+                if(view.getSecurityAnswerField().getText().length()>1) {
                     user.setSecurityAnswer(view.getSecurityAnswerField().getText());
                 }
-                //TODO : random avatar
+                int i = App.getRand().nextInt(4);
+                user.setAvatar(GameAssetManager.getAvatars().get(i));
                 Main.getMain().getScreen().dispose();
                 Main.getMain().setScreen(new LoginMenu(new LoginMenuController(), GameAssetManager.getManager().getSkin()));
             }
         }
         if(view != null && view.getGuestButton().isChecked()) {//guest
             App.setIsGuest(true);
+            App.setLoggedInUser(App.guestUser);
+            App.guestUser.setAvatar(App.getGuestAvatar());
             Main.getMain().getScreen().dispose();
-            Main.getMain().setScreen(new PreGameMenu(new PreGameMenuController(), GameAssetManager.getManager().getSkin()));
+            Main.getMain().setScreen(new MainMenu(new MainMenuController(), GameAssetManager.getManager().getSkin()));
         }
     }
 

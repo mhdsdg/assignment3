@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class GameAssetManager {
@@ -50,10 +51,27 @@ public class GameAssetManager {
     private static Texture winScreenTexture = new Texture(Gdx.files.internal("winScreen.png"));
     private static Texture loseScreenTexture = new Texture(Gdx.files.internal("loseScreen.png"));
 
+    private static Texture avatar1 = new Texture(Gdx.files.internal("Avatars/avatar1.png"));
+    private static Texture avatar2 = new Texture(Gdx.files.internal("Avatars/avatar2.png"));
+    private static Texture avatar3 = new Texture(Gdx.files.internal("Avatars/avatar3.png"));
+    private static Texture avatar4 = new Texture(Gdx.files.internal("Avatars/avatar4.png"));
+    private static Texture avatar5 = new Texture(Gdx.files.internal("Avatars/avatar5.png"));
+    private static ArrayList<Texture> avatars = new ArrayList<>();
+    private static Texture guestAvatar = new Texture(Gdx.files.internal("Avatars/guest.png"));
+
+    public static void iniAvatars(){
+        avatars.add(avatar1);
+        avatars.add(avatar2);
+        avatars.add(avatar3);
+        avatars.add(avatar4);
+        avatars.add(avatar5);
+    }
+
     public static GameAssetManager getManager() {
         if(manager == null) {
              manager = new GameAssetManager();
         }
+        iniAvatars();
         return manager;
     }
 
@@ -300,7 +318,19 @@ public class GameAssetManager {
         GameAssetManager.loseScreenTexture = loseScreenTexture;
     }
 
+    public static Texture getGuestAvatar() {
+        return guestAvatar;
+    }
+
+    public static void setGuestAvatar(Texture guestAvatar) {
+        GameAssetManager.guestAvatar = guestAvatar;
+    }
+
     public Skin getSkin() {
         return skin;
+    }
+
+    public static ArrayList<Texture> getAvatars(){
+        return avatars;
     }
 }

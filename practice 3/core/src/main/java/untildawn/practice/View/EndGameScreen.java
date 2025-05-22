@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import untildawn.practice.Model.App;
 import untildawn.practice.Model.GameAssetManager;
 import untildawn.practice.Model.Player;
 
@@ -68,7 +69,9 @@ public class EndGameScreen {
         table.add(new Label("Kills: " + killCount, new Label.LabelStyle(font, Color.WHITE))).row();
         table.add(new Label("Score: " + score, new Label.LabelStyle(font, Color.YELLOW))).row();
 
-        // Restart button would go here
+        App.getLoggedInUser().setScore(App.getLoggedInUser().getScore() + score);
+        App.getLoggedInUser().setSurvivalTime((int)(App.getLoggedInUser().getSurvivalTime() + surviveTime));
+        App.getLoggedInUser().setKills(App.getLoggedInUser().getKills() + killCount);
 
         stage.addActor(table);
     }

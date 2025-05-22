@@ -1,5 +1,7 @@
 package untildawn.practice.Model;
 
+import com.badlogic.gdx.graphics.Texture;
+
 public class User {
     private int id ;
     private static int idCounter;
@@ -8,6 +10,7 @@ public class User {
     private boolean guest;
     private String securityQuestion;
     private String securityAnswer;
+    private Texture avatar;
     private int score;
     private int kills;
     private int survivalTime;
@@ -89,5 +92,13 @@ public class User {
 
     public void setSurvivalTime(int survivalTime) {
         this.survivalTime = survivalTime;
+    }
+
+    public Texture getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Texture avatar) {
+        this.avatar = avatar;
     }
 }

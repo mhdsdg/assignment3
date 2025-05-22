@@ -1,13 +1,18 @@
 package untildawn.practice.Model;
 
+import com.badlogic.gdx.graphics.Texture;
+
 import java.util.ArrayList;
+import java.util.Random;
 
 public class App {
     private static ArrayList<User> users = new ArrayList<>();
     private static User loggedInUser;
     private static boolean isGuest = false;
+    public static User guestUser = new User("Guest", "Guest");
+    private static Texture guestAvatar = GameAssetManager.getGuestAvatar();
     private static String language = "English";
-
+    private static Random rand = new Random();
 
     public static void changeLanguage(){
         if(language.equals("English")){
@@ -47,5 +52,21 @@ public class App {
 
     public static void setLanguage(String language) {
         App.language = language;
+    }
+
+    public static Random getRand() {
+        return rand;
+    }
+
+    public static void setRand(Random rand) {
+        App.rand = rand;
+    }
+
+    public static Texture getGuestAvatar() {
+        return guestAvatar;
+    }
+
+    public static void setGuestAvatar(Texture guestAvatar) {
+        App.guestAvatar = guestAvatar;
     }
 }

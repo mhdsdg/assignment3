@@ -32,7 +32,7 @@ public class LoginMenuController {
             else {
                 App.setLoggedInUser(user);
                 Main.getMain().getScreen().dispose();
-                Main.getMain().setScreen(new MainMenu());
+                Main.getMain().setScreen(new MainMenu(new MainMenuController(), GameAssetManager.getManager().getSkin()));
             }
         }
     }
