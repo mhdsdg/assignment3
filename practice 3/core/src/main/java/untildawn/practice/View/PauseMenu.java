@@ -50,6 +50,16 @@ public class PauseMenu {
             }
         });
         table.add(exitButton).width(200f).height(60f);
+        TextButton giveUpButton = new TextButton("Give Up", skin);
+        giveUpButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                gameView.setPaused(false);
+                gameView.setGaveUp(true);
+                gameView.setGameEnded(true);
+            }
+        });
+        table.add(giveUpButton).width(200f).height(60f);
 
         stage.addActor(table);
     }

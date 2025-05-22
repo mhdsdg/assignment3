@@ -17,6 +17,7 @@ public class GameView implements Screen, InputProcessor {
     private boolean isPaused = false;
     private EndGameScreen endGameScreen;
     private boolean gameEnded = false;
+    private boolean gaveUp = false;
 
     public GameView(GameController controller , Skin skin) {
         this.controller = controller;
@@ -35,11 +36,12 @@ public class GameView implements Screen, InputProcessor {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
+
         if (gameEnded) {
+            checkEndGame();
             endGameScreen.render(Main.getBatch());
             return;
         }
-
         if (!isPaused) {
             Main.getBatch().begin();
             controller.updateGame();
@@ -56,6 +58,10 @@ public class GameView implements Screen, InputProcessor {
 
         // Check for death
         if (player.getHP() <= 0) {
+            showEndScreen(false);
+            return;
+        }
+        if (gaveUp){
             showEndScreen(false);
             return;
         }
@@ -181,4 +187,15 @@ public class GameView implements Screen, InputProcessor {
         }
     }
 
+    public boolean isGaveUp() {
+        return gaveUp;
+    }
+
+    public void setGaveUp(boolean gaveUp) {
+        this.gaveUp = gaveUp;
+    }
+
+    public void setGameEnded(boolean b) {
+        this.gameEnded = b;
+    }
 }
