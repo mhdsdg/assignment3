@@ -44,7 +44,7 @@ public class GameController {
     }
 
     public void updateGame() {
-        if (view != null) {
+        if (view != null && !view.isPaused()) {
             worldController.update();
             playerController.update();
             weaponController.update();
@@ -77,5 +77,13 @@ public class GameController {
         Cursor cursor = Gdx.graphics.newCursor(pixmap, 0, 0);
         Gdx.graphics.setCursor(cursor);
         pixmap.dispose();
+    }
+
+    public float getTotalTime() {
+        return TotalTime;
+    }
+
+    public float getEndTime() {
+        return EndTime;
     }
 }

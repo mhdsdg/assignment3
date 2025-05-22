@@ -297,8 +297,8 @@ com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
 		up: button-c
 		down: button-over-pressed-c
 		over: button-over-c
-	}
-	toggle: {
+	},
+  toggle: {
 		up: button-c
 		down: button-pressed-c
 		over: button-over-c

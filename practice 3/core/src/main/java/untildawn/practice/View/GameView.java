@@ -1,19 +1,22 @@
 package untildawn.practice.View;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import untildawn.practice.Controller.GameControllers.GameController;
 import untildawn.practice.Main;
+import untildawn.practice.Model.Player;
 
 public class GameView implements Screen, InputProcessor {
     private Stage stage;
     private GameController controller;
     private final Skin skin;
+    private PauseMenu pauseMenu;
+    private boolean isPaused = false;
+    private EndGameScreen endGameScreen;
+    private boolean gameEnded = false;
 
     public GameView(GameController controller , Skin skin) {
         this.controller = controller;
@@ -24,17 +27,54 @@ public class GameView implements Screen, InputProcessor {
     @Override
     public void show() {
         stage = new Stage(new ScreenViewport());
-        Gdx.input.setInputProcessor(this);
+        pauseMenu = new PauseMenu(stage, skin, this);
+
+        Gdx.input.setInputProcessor(new InputMultiplexer(stage, this));
     }
 
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
-        Main.getBatch().begin();
-        controller.updateGame();
-        Main.getBatch().end();
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        if (gameEnded) {
+            endGameScreen.render(Main.getBatch());
+            return;
+        }
+
+        if (!isPaused) {
+            Main.getBatch().begin();
+            controller.updateGame();
+            Main.getBatch().end();
+            checkEndGame();
+        }
+
+        stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
+    }
+
+    private void checkEndGame() {
+        Player player = controller.getPlayerController().getPlayer();
+
+        // Check for death
+        if (player.getHP() <= 0) {
+            showEndScreen(false);
+            return;
+        }
+
+        // Check for win
+        if (controller.getTotalTime() >= controller.getEndTime()) {
+            showEndScreen(true);
+        }
+    }
+
+    private void showEndScreen(boolean isWin) {
+        gameEnded = true;
+        endGameScreen = new EndGameScreen(
+            isWin,
+            controller.getPlayerController().getPlayer().getUsername(), // Replace with actual username
+            controller.getTotalTime(),
+            controller.getPlayerController().getPlayer().getKillCount()
+        );
+        Gdx.input.setInputProcessor(endGameScreen.getStage());
     }
 
     @Override
@@ -64,6 +104,10 @@ public class GameView implements Screen, InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
+        if (keycode == Input.Keys.ESCAPE) {
+            setPaused(!isPaused);  // THIS is the fix
+            return true;
+        }
         return false;
     }
 
@@ -120,4 +164,21 @@ public class GameView implements Screen, InputProcessor {
     public Skin getSkin() {
         return skin;
     }
+
+    public boolean isPaused() {
+        return isPaused;
+    }
+
+    public void setPaused(boolean paused) {
+        this.isPaused = paused;
+        if (paused) {
+            Gdx.input.setInputProcessor(stage);
+            System.out.println("InputProcessor set to stage: " + (Gdx.input.getInputProcessor() == stage));
+            pauseMenu.show();
+        } else {
+            Gdx.input.setInputProcessor(this);
+            pauseMenu.hide();
+        }
+    }
+
 }

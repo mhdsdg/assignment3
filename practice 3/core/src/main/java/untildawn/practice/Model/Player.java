@@ -162,4 +162,11 @@ public class Player {
     public void setSpeed(float speed) {
         this.speed = speed;
     }
+
+    public String getUsername() {
+        if(App.getLoggedInUser() != null){
+            return App.getLoggedInUser().getUsername();
+        }
+        return "GUEST";
+    }
 }

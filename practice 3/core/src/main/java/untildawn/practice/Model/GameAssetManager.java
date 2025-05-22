@@ -47,6 +47,8 @@ public class GameAssetManager {
     private static Texture EnemyBulletTexture = new Texture(Gdx.files.internal("EyeMonsterProjecitle.png"));
 
     private final Skin skin = new Skin(Gdx.files.internal("skin/quantum-horizon-ui.json"));
+    private static Texture winScreenTexture = new Texture(Gdx.files.internal("winScreen.png"));
+    private static Texture loseScreenTexture = new Texture(Gdx.files.internal("loseScreen.png"));
 
     public static GameAssetManager getManager() {
         if(manager == null) {
@@ -280,6 +282,22 @@ public class GameAssetManager {
 
     public static void setEnemyBulletTexture(Texture enemyBulletTexture) {
         EnemyBulletTexture = enemyBulletTexture;
+    }
+
+    public static Texture getWinScreenTexture() {
+        return winScreenTexture;
+    }
+
+    public static void setWinScreenTexture(Texture winScreenTexture) {
+        GameAssetManager.winScreenTexture = winScreenTexture;
+    }
+
+    public static Texture getLoseScreenTexture() {
+        return loseScreenTexture;
+    }
+
+    public static void setLoseScreenTexture(Texture loseScreenTexture) {
+        GameAssetManager.loseScreenTexture = loseScreenTexture;
     }
 
     public Skin getSkin() {
