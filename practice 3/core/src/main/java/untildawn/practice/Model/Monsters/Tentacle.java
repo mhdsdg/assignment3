@@ -17,7 +17,6 @@ public class Tentacle extends Enemy{
     private float speed = 50f;
     private Vector2 direction = new Vector2();
     private float HP = 25;
-    private boolean lookingRight;
 
     public Tentacle(float x, float y) {
         this.x = x;

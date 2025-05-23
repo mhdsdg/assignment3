@@ -86,6 +86,12 @@ public class PlayerController {
                 return;
             }
         }
+        if(monsterController.getElder() != null) {
+            if(monsterController.getElder().getRect().collidesWith(player.getRect())){
+                isHit();
+                return;
+            }
+        }
     }
 
     private void isHit(){

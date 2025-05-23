@@ -15,7 +15,7 @@ public class EyeBat extends Enemy {
     private float speed = 65f;
     private Vector2 direction = new Vector2();
     private float HP = 50;
-    private boolean lookingRight;
+    public float shootTimer ;
 
     public EyeBat(float x, float y) {
         this.x = x;
@@ -58,4 +58,8 @@ public class EyeBat extends Enemy {
     public float getY() { return y; }
     public float getHP() { return HP; }
     public void setHP(float HP) { this.HP = HP; }
+
+    public Sprite getSprite() {
+        return sprite;
+    }
 }

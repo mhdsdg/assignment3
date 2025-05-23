@@ -52,7 +52,7 @@ public class GameController {
             worldController.update();
             playerController.update();
             weaponController.update();
-            monsterController.update();
+            monsterController.update(TotalTime, EndTime);
         }
         TotalTime += Gdx.graphics.getDeltaTime();
     }

@@ -5,13 +5,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Bullet {
-    private final Weapon weapon ;
-    private final Texture texture = GameAssetManager.getBulletTexture();
-    private final Sprite sprite = new Sprite(texture);
-    private final int damage;
-    private int x;
-    private int y;
-    private CollisionRect rect;
+     Weapon weapon ;
+    final Texture texture = GameAssetManager.getBulletTexture();
+    final Sprite sprite = new Sprite(texture);
+    int damage;int x;
+    int y;
+    CollisionRect rect;
 
     public Bullet(Weapon weapon,int x,int y) {
         sprite.setSize(20, 20);

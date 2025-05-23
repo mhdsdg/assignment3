@@ -206,7 +206,7 @@ public class GameView implements Screen, InputProcessor {
         if(controlPressed && upPressed){
             controlPressed = false;
             upPressed = false;
-            controller.setEndTime(controller.getEndTime() - 60);
+            controller.setTotalTime(controller.getTotalTime() + 60f);
         }
         if(controlPressed && downPressed){
             controlPressed = false;

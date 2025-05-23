@@ -46,6 +46,8 @@ public class GameAssetManager {
     private static TextureRegion eyeBatTexture ;
     private static Animation<TextureRegion> eyeBatAnimation = makeEyeBatAnimation();
 
+    private static TextureRegion elderTexture = new TextureRegion(new Texture(Gdx.files.internal("Monsters/ElderBrain.png")));
+
     private static Texture bulletTexture = new Texture(Gdx.files.internal("bullet.png"));
     private static Texture XPTexture = new Texture(Gdx.files.internal("xp.png"));
     private static Texture EnemyBulletTexture = new Texture(Gdx.files.internal("EyeMonsterProjecitle.png"));
@@ -339,6 +341,14 @@ public class GameAssetManager {
 
     public static void setGuestAvatar(Texture guestAvatar) {
         GameAssetManager.guestAvatar = guestAvatar;
+    }
+
+    public static TextureRegion getElderTexture() {
+        return elderTexture;
+    }
+
+    public static void setElderTexture(TextureRegion elderTexture) {
+        GameAssetManager.elderTexture = elderTexture;
     }
 
     public Skin getSkin() {

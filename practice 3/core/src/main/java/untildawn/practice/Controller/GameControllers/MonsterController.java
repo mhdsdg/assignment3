@@ -2,11 +2,11 @@ package untildawn.practice.Controller.GameControllers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import untildawn.practice.Main;
-import untildawn.practice.Model.Bullet;
-import untildawn.practice.Model.EnemyBullet;
+import untildawn.practice.Model.*;
+import untildawn.practice.Model.Enum.Weapons.Weapons;
 import untildawn.practice.Model.Monsters.*;
-import untildawn.practice.Model.XP;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -20,6 +20,8 @@ public class MonsterController {
     private ArrayList<EyeBat> eyeBats = new ArrayList<>();
     private ArrayList<EnemyBullet> enemyBullets = new ArrayList<>();
     private Elder elder;
+    private boolean elderSlayed;
+    private Weapon eyeBatWeapon ;
 
     private float tentacleSpawnTimer = 0;
     private float eyeBatSpawnTimer = 0;
@@ -31,7 +33,9 @@ public class MonsterController {
         this.bulletController = bulletController;
         putTrees();
         this.tentacles = new ArrayList<>();
-        putEyeBats();
+        GameAssetManager.setWeapon(Weapons.EyeBat);
+        eyeBatWeapon = new Weapon();
+        eyeBats.add(new EyeBat(Gdx.graphics.getWidth()/2f + 200, Gdx.graphics.getHeight()/2f + 200));
     }
 
     public void putTrees() {
@@ -52,11 +56,14 @@ public class MonsterController {
             trees.add(new Tree(x, y));
         }
     }
-    public void putEyeBats() {
-        eyeBats.add(new EyeBat((float) Gdx.graphics.getWidth() /2 + 200, (float) Gdx.graphics.getHeight() /2 + 200));
+    public void spawnElder() {
+        if(elder == null) {
+            elder = new Elder((float) Gdx.graphics.getWidth() / 2 + 200, (float) Gdx.graphics.getHeight() / 2 + 200);
+        }
     }
 
-    public void update(){
+    public void update(float totalTimeActual, float endTime){
+        updateBullets();
         for (Tree tree : trees) {
             tree.update(Gdx.graphics.getDeltaTime());
             tree.getSprite().setPosition(worldController.getPlayer().getX() + tree.getX()
@@ -65,6 +72,9 @@ public class MonsterController {
             tree.getRect().move(tree.getSprite().getX(), tree.getSprite().getY());
         }
         //check spawn
+        if(!elderSlayed && elder == null && totalTimeActual >= endTime/2){
+            spawnElder();
+        }
         totalTime += Gdx.graphics.getDeltaTime();
         tentacleSpawnTimer += Gdx.graphics.getDeltaTime();
         eyeBatSpawnTimer += Gdx.graphics.getDeltaTime();
@@ -95,6 +105,17 @@ public class MonsterController {
             float offsetX = worldController.getPlayerWorldX() - Gdx.graphics.getWidth() / 2f;
             float offsetY = worldController.getPlayerWorldY() - Gdx.graphics.getHeight() / 2f;
             bat.draw(offsetX, offsetY);
+            bat.shootTimer += Gdx.graphics.getDeltaTime();
+            if(bat.shootTimer >= 5f){
+                enemyBullets.add(new EnemyBullet(eyeBatWeapon, (int) bat.getSprite().getX(), (int) bat.getSprite().getY()));
+                bat.shootTimer = 0f;
+            }
+        }
+        if(elder != null) {
+            elder.update(Gdx.graphics.getDeltaTime(), worldController.getPlayerWorldX(), worldController.getPlayerWorldY());
+            float offsetX = worldController.getPlayerWorldX() - Gdx.graphics.getWidth() / 2f;
+            float offsetY = worldController.getPlayerWorldY() - Gdx.graphics.getHeight() / 2f;
+            elder.draw(offsetX, offsetY);
         }
         checkHit();
 
@@ -205,6 +226,23 @@ public class MonsterController {
 
             return false;
         });
+        if(elder != null){
+            if (elder.getHP() <= 0) {
+                dropXP(elder.getX(), elder.getY());
+                elderSlayed = true;
+                elder = null;
+            }
+            if(elder != null) {
+                bulletController.bullets.removeIf(bullet -> {
+                    if (elder.getRect().collidesWith(bullet.getRect())) {
+                        elder.setHP(elder.getHP() - bullet.getDamage());
+                        handleKnockBack(elder, bullet);
+                        return true;
+                    }
+                    return false;
+                });
+            }
+        }
     }
 
     private void handleKnockBack(Enemy enemy, Bullet bullet) {
@@ -246,5 +284,20 @@ public class MonsterController {
 
     public ArrayList<Tentacle> getTentacles() {
         return tentacles;
+    }
+
+    public void updateBullets() {
+        for(Bullet b : enemyBullets) {
+            b.getSprite().draw(Main.getBatch());
+            Vector2 direction = new Vector2(
+                -Gdx.graphics.getWidth()/2f + b.getX(),
+                -Gdx.graphics.getHeight()/2f + b.getY()
+            ).nor();
+
+            b.getSprite().setX(b.getSprite().getX() - direction.x * 6);
+            b.getSprite().setY(b.getSprite().getY() + direction.y * 6);
+            b.getRect().move(b.getSprite().getX() - direction.x * 6,
+                b.getSprite().getY() + direction.y * 6);
+        }
     }
 }
