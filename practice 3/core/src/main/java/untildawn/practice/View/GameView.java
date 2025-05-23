@@ -30,7 +30,7 @@ public class GameView implements Screen, InputProcessor {
     private SettingsMenu settingsMenu;
     private Texture shadowTexture;
     private Pixmap shadowPixmap;
-    private int sightRadius = 500; // Adjust this value to change the size of the visible area
+    private int sightRadius = 300;
 
     public GameView(GameController controller , Skin skin) {
         this.controller = controller;
@@ -78,9 +78,19 @@ public class GameView implements Screen, InputProcessor {
             endGameScreen.render(Main.getBatch());
             return;
         }
+
         if (!isPaused) {
             Main.getBatch().begin();
+            // 1. Render the game world
             controller.updateGame();
+
+            // 2. Draw the shadow texture
+            Main.getBatch().setColor(1, 1, 1, 1);
+            Main.getBatch().draw(shadowTexture, 0, 0);
+
+            // 3. Render the HUD elements
+            controller.updateHUDs();
+
             Main.getBatch().end();
             checkEndGame();
         }

@@ -53,17 +53,19 @@ public class GameController {
             playerController.update();
             weaponController.update();
             monsterController.update();
-            healthBarController.update(Gdx.graphics.getDeltaTime());
-            ammoCounterController.update(weaponController.weapon);
-            timeCounterController.update(TotalTime, EndTime);
-            killCounterController.update(playerController.player.getKillCount());
-            killCounterController.render(Main.getBatch());
-            timeCounterController.render(Main.getBatch());
-            healthBarController.render(Main.getBatch());
-            ammoCounterController.render(Main.getBatch());
-            xpLevelController.render(Main.getBatch(), playerController.getPlayer());
         }
         TotalTime += Gdx.graphics.getDeltaTime();
+    }
+    public void updateHUDs() {
+        healthBarController.update(Gdx.graphics.getDeltaTime());
+        ammoCounterController.update(weaponController.weapon);
+        timeCounterController.update(TotalTime, EndTime);
+        killCounterController.update(playerController.player.getKillCount());
+        killCounterController.render(Main.getBatch());
+        timeCounterController.render(Main.getBatch());
+        healthBarController.render(Main.getBatch());
+        ammoCounterController.render(Main.getBatch());
+        xpLevelController.render(Main.getBatch(), playerController.getPlayer());
     }
 
     public WorldController getWorldController() {
