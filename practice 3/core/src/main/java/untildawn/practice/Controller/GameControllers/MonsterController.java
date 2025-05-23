@@ -5,10 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import untildawn.practice.Main;
 import untildawn.practice.Model.Bullet;
 import untildawn.practice.Model.EnemyBullet;
-import untildawn.practice.Model.Monsters.Elder;
-import untildawn.practice.Model.Monsters.EyeBat;
-import untildawn.practice.Model.Monsters.Tentacle;
-import untildawn.practice.Model.Monsters.Tree;
+import untildawn.practice.Model.Monsters.*;
 import untildawn.practice.Model.XP;
 
 import java.util.ArrayList;
@@ -183,6 +180,7 @@ public class MonsterController {
             bulletController.bullets.removeIf(bullet -> {
                 if (tentacle.getRect().collidesWith(bullet.getRect())) {
                     tentacle.setHP(tentacle.getHP() - bullet.getDamage());
+                    handleKnockBack(tentacle, bullet);
                     return true;
                 }
                 return false;
@@ -199,6 +197,7 @@ public class MonsterController {
             bulletController.bullets.removeIf(bullet -> {
                 if (bat.getRect().collidesWith(bullet.getRect())) {
                     bat.setHP(bat.getHP() - bullet.getDamage());
+                    handleKnockBack(bat, bullet);
                     return true;
                 }
                 return false;
@@ -206,6 +205,10 @@ public class MonsterController {
 
             return false;
         });
+    }
+
+    private void handleKnockBack(Enemy enemy, Bullet bullet) {
+        enemy.handleKnockBack(bullet);
     }
 
     private void dropXP(float x, float y) {

@@ -13,8 +13,6 @@ public class Tree extends Enemy {
     private final TextureRegion texture = GameAssetManager.getTreeTexture();
     private final Animation<TextureRegion> animation = GameAssetManager.getTreeAnimation();
     private final Sprite sprite = new Sprite(texture);
-    private float x;
-    private float y;
     private float HP = 40;
     private float stateTime = 0;
 

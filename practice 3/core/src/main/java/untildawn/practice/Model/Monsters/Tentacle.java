@@ -1,15 +1,16 @@
 package untildawn.practice.Model.Monsters;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import untildawn.practice.Main;
+import untildawn.practice.Model.Bullet;
 import untildawn.practice.Model.CollisionRect;
 import untildawn.practice.Model.GameAssetManager;
 
 public class Tentacle extends Enemy{
-    private float x, y; // World coordinates
     private final Sprite sprite;
     private final Animation<TextureRegion> animation;
     private float stateTime = 0;
@@ -43,6 +44,12 @@ public class Tentacle extends Enemy{
 
         // Update collision rect (world space)
         rect.move(x, y);
+    }
+    public void handleKnockBack(Bullet b) {
+        Vector2 direction1 = new Vector2();
+        direction1.set(b.getSprite().getX() - Gdx.graphics.getWidth()/2f, b.getSprite().getY() - Gdx.graphics.getHeight()/2f).nor();
+        x += direction1.x * 10;
+        y += direction1.y * 10;
     }
 
     public void draw(float offsetX, float offsetY) {

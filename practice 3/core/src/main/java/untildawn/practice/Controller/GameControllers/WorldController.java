@@ -12,6 +12,8 @@ public class WorldController {
     private PlayerController playerController;
     private World world;
     private ArrayList<XP> xps = new ArrayList<>();
+    public float initialX = 0;
+    public float initialY = 0;
     private float backgroundX = 0;
     private float backgroundY = 0;
 

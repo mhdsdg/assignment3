@@ -19,6 +19,7 @@ public class MainMenu implements Screen {
     private Table mainTable;
     private Table userInfoTable;
     private Image avatarImage;
+    private SettingsMenu settingsMenu;
 
     // Buttons
     private TextButton settingsButton;
@@ -35,6 +36,7 @@ public class MainMenu implements Screen {
     private MainMenuController controller;
 
     public MainMenu(MainMenuController controller, Skin skin) {
+        App.initializeMusic();
         this.controller = controller;
         this.skin = skin;
 
@@ -62,6 +64,7 @@ public class MainMenu implements Screen {
     public void show() {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
+        settingsMenu = new SettingsMenu(stage, skin, this);
 
         // Set up user info table (right side)
         userInfoTable.add(usernameLabel).row();
@@ -98,11 +101,15 @@ public class MainMenu implements Screen {
         setupButtonListeners();
     }
 
+    public void showSettings() {
+        settingsMenu.show();
+    }
+
     private void setupButtonListeners() {
         preGameButton.addListener(controller.getPreGameListener());
         profileButton.addListener(controller.getProfileListener());
         scoreBoardButton.addListener(controller.getScoreBoardListener());
-//        settingsButton.addListener(controller.getSettingsListener());
+        settingsButton.addListener(controller.getSettingsListener());
 //        hintMenuButton.addListener(controller.getHintMenuListener());
         logoutButton.addListener(controller.getLogoutListener());
     }

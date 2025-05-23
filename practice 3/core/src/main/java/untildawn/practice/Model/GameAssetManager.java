@@ -1,6 +1,9 @@
 package untildawn.practice.Model;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.backends.lwjgl3.audio.Mp3;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -58,6 +61,18 @@ public class GameAssetManager {
     private static Texture avatar5 = new Texture(Gdx.files.internal("Avatars/avatar5.png"));
     private static ArrayList<Texture> avatars = new ArrayList<>();
     private static Texture guestAvatar = new Texture(Gdx.files.internal("Avatars/guest.png"));
+    public final static String[] musicFileAddresses = {"music/sweden.mp3","music/dark.mp3","music/test.mp3"};
+    public final static AssetManager assetManager = new AssetManager();
+
+    public static void loadMusic() {
+        for (String musicFileAddress : musicFileAddresses) {
+            assetManager.load(musicFileAddress, Music.class);
+        }
+    }
+
+    public static Music getMusic(int index) {
+        return assetManager.get(musicFileAddresses[index] , Music.class);
+    }
 
     public static void iniAvatars(){
         avatars.add(avatar1);

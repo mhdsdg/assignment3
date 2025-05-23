@@ -1,6 +1,8 @@
 package untildawn.practice.View;
 
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -25,6 +27,10 @@ public class GameView implements Screen, InputProcessor {
     private boolean gameEnded = false;
     private boolean gaveUp = false;
     private float deathTimer;
+    private SettingsMenu settingsMenu;
+    private Texture shadowTexture;
+    private Pixmap shadowPixmap;
+    private int sightRadius = 500; // Adjust this value to change the size of the visible area
 
     public GameView(GameController controller , Skin skin) {
         this.controller = controller;
@@ -36,8 +42,31 @@ public class GameView implements Screen, InputProcessor {
     public void show() {
         stage = new Stage(new ScreenViewport());
         pauseMenu = new PauseMenu(stage, skin, this);
-
+        settingsMenu = new SettingsMenu(stage, skin, this);
         Gdx.input.setInputProcessor(new InputMultiplexer(stage, this));
+        createShadowTexture();
+    }
+
+    private void createShadowTexture() {
+        int width = Gdx.graphics.getWidth();
+        int height = Gdx.graphics.getHeight();
+
+        shadowPixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+        shadowPixmap.setColor(0, 0, 0, 0.7f); // Semi-transparent black
+        shadowPixmap.fill();
+
+        // Clear a circle in the center
+        shadowPixmap.setBlending(Pixmap.Blending.None);
+        shadowPixmap.setColor(0, 0, 0, 0); // Transparent
+        shadowPixmap.fillCircle(width/2, height/2, sightRadius);
+
+        shadowTexture = new Texture(shadowPixmap);
+        shadowPixmap.dispose();
+    }
+
+    public void showSettings() {
+        pauseMenu.hide();
+        settingsMenu.show();
     }
 
     @Override
@@ -270,5 +299,9 @@ public class GameView implements Screen, InputProcessor {
 
     public void setGameEnded(boolean b) {
         this.gameEnded = b;
+    }
+
+    public PauseMenu getPauseMenu() {
+        return pauseMenu;
     }
 }
