@@ -13,7 +13,8 @@ public class Damager extends Ability {
         doEffect();
     }
 
-    private void doEffect() {
+    @Override
+    public void doEffect() {
         controller.weaponIsBoosted = true;
         for (Weapon weapon : controller.weapons) {
             weapon.setDamage((int)(weapon.getDamage() * 1.25));

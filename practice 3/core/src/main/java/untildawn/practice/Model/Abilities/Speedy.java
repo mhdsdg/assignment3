@@ -9,7 +9,8 @@ public class Speedy extends Ability {
         doEffect();
     }
 
-    private void doEffect() {
+    @Override
+    public void doEffect() {
         controller.setSpeedIsBoosted(true);
         controller.getPlayer().setSpeed(controller.getPlayer().getSpeed() * 2);
     }

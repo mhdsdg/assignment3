@@ -15,6 +15,8 @@ public class PreGameMenu implements Screen {
     private final Label gameTitle;
     private final TextButton playButton;
     private final SelectBox selectHero;
+    private final SelectBox selectWeapon;
+    private final SelectBox selectGameDuration;
     public Table table;
     private PreGameMenuController controller;
 
@@ -22,6 +24,8 @@ public class PreGameMenu implements Screen {
         this.gameTitle = new Label("Pregame Menu", skin);
         this.selectHero = new SelectBox<>(skin);
         this.playButton = new TextButton("Play", skin);
+        this.selectWeapon = new SelectBox<>(skin);
+        this.selectGameDuration = new SelectBox<>(skin);
         this.table = new Table();
         this.controller = controller;
         controller.setView(this);
@@ -34,18 +38,40 @@ public class PreGameMenu implements Screen {
 
         Array<String> hero = new Array<>();
 
-        hero.add("hero1");
-        hero.add("hero2");
-        hero.add("hero3");
+        hero.add("Shana");
+        hero.add("Diamond");
+        hero.add("Scarlett");
+        hero.add("Lilith");
+        hero.add("Dasher");
 
         selectHero.setItems(hero);
+
+        Array<String> weapon = new Array<>();
+
+        weapon.add("Revolver");
+        weapon.add("Shotgun");
+        weapon.add("SMG");
+
+        selectWeapon.setItems(weapon);
+
+        Array<String> gameDuration = new Array<>();
+        gameDuration.add("2");
+        gameDuration.add("5");
+        gameDuration.add("10");
+        gameDuration.add("20");
+
+        selectGameDuration.setItems(gameDuration);
 
         table.setFillParent(true);
         table.center();
         table.row().pad(10, 0 , 10 , 0);
         table.add(gameTitle);
         table.row().pad(10, 0 , 10 , 0);
-        table.add(selectHero);
+        table.add(selectHero).width(200);
+        table.row().pad(10, 0 , 10 , 0);
+        table.add(selectWeapon).width(200);
+        table.row().pad(10, 0 , 10 , 0);
+        table.add(selectGameDuration).width(200);
         table.row().pad(10, 0 , 10 , 0);
         table.add(playButton);
 
@@ -105,5 +131,12 @@ public class PreGameMenu implements Screen {
 
     public void setController(PreGameMenuController controller) {
         this.controller = controller;
+    }
+
+    public SelectBox getSelectGameDuration() {
+        return selectGameDuration;
+    }
+    public SelectBox getSelectWeapon(){
+        return selectWeapon;
     }
 }

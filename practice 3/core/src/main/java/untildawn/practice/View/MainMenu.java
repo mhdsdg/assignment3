@@ -101,7 +101,7 @@ public class MainMenu implements Screen {
     private void setupButtonListeners() {
         preGameButton.addListener(controller.getPreGameListener());
         profileButton.addListener(controller.getProfileListener());
-//        scoreBoardButton.addListener(controller.getScoreBoardListener());
+        scoreBoardButton.addListener(controller.getScoreBoardListener());
 //        settingsButton.addListener(controller.getSettingsListener());
 //        hintMenuButton.addListener(controller.getHintMenuListener());
         logoutButton.addListener(controller.getLogoutListener());

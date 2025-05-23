@@ -4,17 +4,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g3d.Model;
 import untildawn.practice.Main;
 import untildawn.practice.Model.CollisionRect;
 import untildawn.practice.Model.GameAssetManager;
 
-public class Tree {
+public class Tree extends Enemy {
     private final TextureRegion texture = GameAssetManager.getTreeTexture();
     private final Animation<TextureRegion> animation = GameAssetManager.getTreeAnimation();
     private final Sprite sprite = new Sprite(texture);
     private float x;
     private float y;
-    private CollisionRect rect;
     private float HP = 40;
     private float stateTime = 0;
 

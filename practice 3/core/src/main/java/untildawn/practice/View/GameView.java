@@ -7,7 +7,13 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import untildawn.practice.Controller.GameControllers.GameController;
 import untildawn.practice.Main;
+import untildawn.practice.Model.Abilities.Damager;
+import untildawn.practice.Model.Abilities.Procrease;
+import untildawn.practice.Model.Abilities.Speedy;
+import untildawn.practice.Model.Abilities.Vitality;
 import untildawn.practice.Model.Player;
+
+import java.util.Collections;
 
 public class GameView implements Screen, InputProcessor {
     private Stage stage;
@@ -18,6 +24,7 @@ public class GameView implements Screen, InputProcessor {
     private EndGameScreen endGameScreen;
     private boolean gameEnded = false;
     private boolean gaveUp = false;
+    private float deathTimer;
 
     public GameView(GameController controller , Skin skin) {
         this.controller = controller;
@@ -58,8 +65,13 @@ public class GameView implements Screen, InputProcessor {
 
         // Check for death
         if (player.getHP() <= 0) {
-            showEndScreen(false);
-            return;
+            if(deathTimer >= 5) {
+                showEndScreen(false);
+                return;
+            }
+            else{
+                deathTimer += Gdx.graphics.getDeltaTime();
+            }
         }
         if (gaveUp){
             showEndScreen(false);
@@ -107,14 +119,75 @@ public class GameView implements Screen, InputProcessor {
     public void dispose() {
 
     }
+    boolean shiftPressed ;
+    boolean controlPressed ;
+    boolean upPressed ;
+    boolean downPressed ;
+    boolean leftPressed ;
+    boolean rightPressed ;
 
     @Override
     public boolean keyDown(int keycode) {
+
         if (keycode == Input.Keys.ESCAPE) {
             setPaused(!isPaused);  // THIS is the fix
             return true;
         }
+        switch (keycode) {
+            case Input.Keys.SHIFT_LEFT:
+            case Input.Keys.SHIFT_RIGHT:
+                shiftPressed = true;
+                break;
+            case Input.Keys.CONTROL_LEFT:
+            case Input.Keys.CONTROL_RIGHT:
+                controlPressed = true;
+                break;
+            case Input.Keys.UP:
+                upPressed = true;
+                break;
+            case Input.Keys.DOWN:
+                downPressed = true;
+                break;
+            case Input.Keys.RIGHT:
+                rightPressed = true;
+                break;
+        }
+        checkCombination();
         return false;
+    }
+
+    private void checkCombination() {
+        if(shiftPressed && upPressed){
+            shiftPressed = false;
+            upPressed = false;
+            if(deathTimer > 0) {
+                controller.getPlayerController().getPlayer().setHP(controller.getPlayerController().getPlayer().getHP()+2);
+            }
+        }
+        if(controlPressed && upPressed){
+            controlPressed = false;
+            upPressed = false;
+            controller.setEndTime(controller.getEndTime() - 60);
+        }
+        if(controlPressed && downPressed){
+            controlPressed = false;
+            downPressed = false;
+            controller.getPlayerController().getPlayer().getAbilities().add(new Vitality(controller.getPlayerController().getPlayer()));
+            controller.getPlayerController().getPlayer().getAbilities().add(new Damager(controller.getWeaponController()));
+            controller.getPlayerController().getPlayer().getAbilities().add(new Speedy(controller.getPlayerController()));
+            controller.getPlayerController().getPlayer().getAbilities().add(new Procrease(controller.getWeaponController()));
+        }
+        if(shiftPressed && downPressed){
+            shiftPressed = false;
+            downPressed = false;
+            controller.getPlayerController().getPlayer().setLevel(controller.getPlayerController().getPlayer().getLevel()+1);
+        }
+        if(shiftPressed && rightPressed){
+            controlPressed = false;
+            upPressed = false;
+            shiftPressed = false;
+            controller.setTotalTime(controller.getEndTime()/2);
+        }
     }
 
     @Override

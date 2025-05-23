@@ -7,10 +7,7 @@ import untildawn.practice.Model.App;
 import untildawn.practice.Model.Enum.dialogue.Dialogues;
 import untildawn.practice.Model.GameAssetManager;
 import untildawn.practice.Model.User;
-import untildawn.practice.View.ForgotPasswordMenu;
-import untildawn.practice.View.LoginMenu;
-import untildawn.practice.View.MainMenu;
-import untildawn.practice.View.PreGameMenu;
+import untildawn.practice.View.*;
 
 public class LoginMenuController {
     public LoginMenu view;
@@ -51,6 +48,12 @@ public class LoginMenuController {
                 Main.getMain().getScreen().dispose();
                 Main.getMain().setScreen(new ForgotPasswordMenu(new ForgotPasswordMenuController(),GameAssetManager.getManager().getSkin(), user));
             }
+        }
+    }
+    public void handleGoBack(){
+        if(view != null && view.getGoToSignUpButton().isChecked()) {
+            Main.getMain().getScreen().dispose();
+            Main.getMain().setScreen(new SignupMenu(new SignupMenuController(), GameAssetManager.getManager().getSkin()));
         }
     }
 

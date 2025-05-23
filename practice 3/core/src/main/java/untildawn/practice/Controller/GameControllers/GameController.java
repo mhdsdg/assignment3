@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import untildawn.practice.Controller.HUDs.*;
 import untildawn.practice.Main;
+import untildawn.practice.Model.App;
 import untildawn.practice.Model.GameAssetManager;
 import untildawn.practice.Model.Player;
 import untildawn.practice.View.GameView;
@@ -23,7 +24,7 @@ public class GameController {
     private XPLevelController xpLevelController;
     private Skin skin = GameAssetManager.getManager().getSkin();
     private float TotalTime = 0;
-    private float EndTime = 360;
+    private float EndTime = App.getGameDuration();
 
     public void setView(GameView view){
         this.view = view;
@@ -40,6 +41,9 @@ public class GameController {
         timeCounterController = new TimeCounterController(skin, EndTime);
         killCounterController = new KillCounterController(skin);
         xpLevelController = new XPLevelController(skin);
+        weaponController.player =playerController.getPlayer();
+        weaponController.monsterController = monsterController;
+        weaponController.worldController = worldController;
         setCustomCursor();
     }
 
@@ -51,7 +55,7 @@ public class GameController {
             monsterController.update();
             healthBarController.update(Gdx.graphics.getDeltaTime());
             ammoCounterController.update(weaponController.weapon);
-            timeCounterController.update(TotalTime);
+            timeCounterController.update(TotalTime, EndTime);
             killCounterController.update(playerController.player.getKillCount());
             killCounterController.render(Main.getBatch());
             timeCounterController.render(Main.getBatch());
@@ -85,5 +89,13 @@ public class GameController {
 
     public float getEndTime() {
         return EndTime;
+    }
+
+    public void setEndTime( float endTime ) {
+        this.EndTime = endTime;
+    }
+
+    public void setTotalTime( float totalTime ) {
+        this.TotalTime = totalTime;
     }
 }

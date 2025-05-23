@@ -22,8 +22,9 @@ public class TimeCounterController {
         timeFont = skin.getFont("ChevyRay_-_Express");
     }
 
-    public void update(float currentTime) {
+    public void update(float currentTime, float totalTimeMax) {
         this.totalTime = currentTime;
+        this.totalTimeMax = totalTimeMax;
     }
 
     public void render(SpriteBatch batch) {

@@ -6,10 +6,11 @@ public class Vitality extends Ability {
     public Player player ;
     public Vitality(Player player) {
         this.player = player;
-        increaseHealth();
+        doEffect();
     }
 
-    private void increaseHealth() {
+    @Override
+    public void doEffect() {
         player.setMaxHP(player.getMaxHP() + 1);
         player.setHP(player.getHP() + 1);
     }

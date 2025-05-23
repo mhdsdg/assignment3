@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import untildawn.practice.Main;
+import untildawn.practice.Model.Abilities.Speedy;
 import untildawn.practice.Model.Enum.ControlKeys;
 import untildawn.practice.Model.GameAssetManager;
 import untildawn.practice.Model.Monsters.EyeBat;
@@ -42,6 +43,11 @@ public class PlayerController {
                 speedIsBoosted = false;
                 speedBoostTimer = 0.0f;
                 player.setSpeed(player.getSpeed()/2);
+                for (int i = 0; i < player.getAbilities().size(); i++) {
+                    if(player.getAbilities().get(i) instanceof Speedy ){
+                        player.getAbilities().remove(player.getAbilities().get(i));
+                    }
+                }
             }
         }
         checkXP();

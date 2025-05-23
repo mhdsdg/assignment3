@@ -169,4 +169,8 @@ public class Player {
         }
         return "GUEST";
     }
+
+    public ArrayList<Ability> getAbilities() {
+        return abilities;
+    }
 }

@@ -8,11 +8,10 @@ import untildawn.practice.Main;
 import untildawn.practice.Model.CollisionRect;
 import untildawn.practice.Model.GameAssetManager;
 
-public class EyeBat {
+public class EyeBat extends Enemy {
     private float x, y; // World coordinates
     private final Sprite sprite;
     private final Animation<TextureRegion> animation;
-    private final CollisionRect rect;
     private float stateTime = 0;
     private float speed = 65f;
     private Vector2 direction = new Vector2();

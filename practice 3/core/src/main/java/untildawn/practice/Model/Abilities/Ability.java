@@ -1,4 +1,5 @@
 package untildawn.practice.Model.Abilities;
 
-public class Ability {
+public abstract class Ability {
+    public abstract void doEffect();
 }

@@ -13,6 +13,8 @@ public class App {
     private static Texture guestAvatar = GameAssetManager.getGuestAvatar();
     private static String language = "English";
     private static Random rand = new Random();
+    private static ArrayList<Weapon> weapons = new ArrayList<>();
+    private static int gameDuration;
 
     public static void changeLanguage(){
         if(language.equals("English")){
@@ -68,5 +70,21 @@ public class App {
 
     public static void setGuestAvatar(Texture guestAvatar) {
         App.guestAvatar = guestAvatar;
+    }
+
+    public static ArrayList<Weapon> getWeapons() {
+        return weapons;
+    }
+
+    public static void setWeapons(ArrayList<Weapon> weapons) {
+        App.weapons = weapons;
+    }
+
+    public static int getGameDuration() {
+        return gameDuration;
+    }
+
+    public static void setGameDuration(int gameDuration) {
+        App.gameDuration = gameDuration;
     }
 }

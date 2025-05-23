@@ -9,7 +9,8 @@ public class Procrease extends Ability {
         doEffect();
     }
 
-    private void doEffect() {
+    @Override
+    public void doEffect() {
         controller.weapon.setProjectile(controller.weapon.getProjectile() + 1);
     }
 }

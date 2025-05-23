@@ -16,6 +16,7 @@ public class LoginMenu implements Screen {
     private final TextField usernameField;
     private final TextField passwordField;
     private final TextButton forgotPasswordButton;
+    private final TextButton goToSignUpButton;
     private final Label title;
     public Table table;
     public LoginMenuController controller;
@@ -32,6 +33,8 @@ public class LoginMenu implements Screen {
         passwordField.setMessageText("Enter your password");
         this.forgotPasswordButton = new TextButton("Forgot Password", skin);
         this.forgotPasswordButton.setChecked(false);
+        this.goToSignUpButton = new TextButton("back to signup", skin);
+        this.goToSignUpButton.setChecked(false);
         this.table = new Table();
         controller.setView(this);
     }
@@ -53,6 +56,8 @@ public class LoginMenu implements Screen {
         table.add(advanceButton).width(300);
         table.row().pad(10, 0 , 10 , 0);
         table.add(forgotPasswordButton).width(300);
+        table.row().pad(10, 0 , 10 , 0);
+        table.add(goToSignUpButton).width(300);
 
         stage.addActor(table);
     }
@@ -66,6 +71,7 @@ public class LoginMenu implements Screen {
         stage.draw();
         controller.handleLogin();
         controller.handleForgotPassword();
+        controller.handleGoBack();
     }
 
     @Override
@@ -104,6 +110,9 @@ public class LoginMenu implements Screen {
     }
     public TextButton getForgotPasswordButton() {
         return forgotPasswordButton;
+    }
+    public TextButton getGoToSignUpButton() {
+        return goToSignUpButton;
     }
 
     public Stage getStage() {

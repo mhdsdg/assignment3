@@ -4,10 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import untildawn.practice.Main;
 import untildawn.practice.Model.GameAssetManager;
-import untildawn.practice.View.LoginMenu;
-import untildawn.practice.View.MainMenu;
-import untildawn.practice.View.PreGameMenu;
-import untildawn.practice.View.ProfileMenu;
+import untildawn.practice.View.*;
 
 public class MainMenuController {
     private MainMenu view;
@@ -37,7 +34,15 @@ public class MainMenuController {
             }
         };
     }
-//    public ClickListener getScoreBoardListener() { /* ... */ }
+    public ClickListener getScoreBoardListener() {
+        return new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Main.getMain().getScreen().dispose();
+                Main.getMain().setScreen(new ScoreboardMenu(new ScoreboardMenuController(), GameAssetManager.getManager().getSkin()));
+            }
+        };
+    }
 //    public ClickListener getSettingsListener() { /* ... */ }
 //    public ClickListener getHintMenuListener() { /* ... */ }
     public ClickListener getLogoutListener() {

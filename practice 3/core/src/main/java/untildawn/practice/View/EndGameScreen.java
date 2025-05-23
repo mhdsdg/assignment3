@@ -51,6 +51,7 @@ public class EndGameScreen {
         table.setFillParent(true);
         if(isWin){
             table.left();
+            table.padTop(300).padLeft(100);
         }
         else{
             table.center();

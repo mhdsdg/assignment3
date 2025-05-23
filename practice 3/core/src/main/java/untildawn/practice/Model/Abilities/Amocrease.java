@@ -9,7 +9,8 @@ public class Amocrease extends Ability {
         doEffect();
     }
 
-    private void doEffect() {
+    @Override
+    public void doEffect() {
         controller.weapon.setMagSize(controller.weapon.getMagSize() + 5);
     }
 }
