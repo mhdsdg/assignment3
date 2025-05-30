@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import untildawn.practice.Model.Adapters.SerializationUtility;
 import untildawn.practice.Model.App;
 import untildawn.practice.Model.GameAssetManager;
 import untildawn.practice.Model.Player;
@@ -27,6 +28,7 @@ public class EndGameScreen {
     private int killCount;
     private int score;
     private Skin skin;
+    public static boolean saved;
 
     public EndGameScreen(boolean isWin, String username, float surviveTime, int killCount) {
         this.isWin = isWin;
@@ -37,6 +39,10 @@ public class EndGameScreen {
         App.getLoggedInUser().setScore(App.getLoggedInUser().getScore() + score);
         App.getLoggedInUser().setKills(App.getLoggedInUser().getKills() + killCount);
         App.getLoggedInUser().setSurvivalTime(App.getLoggedInUser().getSurvivalTime() + (int)surviveTime);
+        if(!saved){
+            SerializationUtility.saveAppState("users.json");
+            saved = true;
+        }
 
         this.background = isWin ?
             GameAssetManager.getWinScreenTexture() :

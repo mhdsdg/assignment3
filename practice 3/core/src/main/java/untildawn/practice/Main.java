@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import untildawn.practice.Controller.SignupMenuController;
+import untildawn.practice.Model.Adapters.SerializationUtility;
 import untildawn.practice.Model.GameAssetManager;
 import untildawn.practice.View.ProfileMenu;
 import untildawn.practice.View.SignupMenu;
@@ -45,6 +46,7 @@ public class Main extends Game {
     public void create() {
         main = this;
         batch = new SpriteBatch();
+        SerializationUtility.loadAppState("users.json");
         getMain().setScreen(new SignupMenu(new SignupMenuController(), GameAssetManager.getManager().getSkin()));
     }
 

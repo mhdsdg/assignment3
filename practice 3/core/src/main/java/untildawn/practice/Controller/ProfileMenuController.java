@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import untildawn.practice.Main;
+import untildawn.practice.Model.Adapters.SerializationUtility;
 import untildawn.practice.Model.App;
 import untildawn.practice.Model.Enum.Regexes;
 import untildawn.practice.Model.Enum.dialogue.Dialogues;
@@ -43,6 +44,7 @@ public class ProfileMenuController {
                     }
                     else {
                         App.getLoggedInUser().setUsername(newUsername);
+                        SerializationUtility.saveAppState("users.json");
                     }
                 }
             }
@@ -60,6 +62,7 @@ public class ProfileMenuController {
                 }
                 else {
                     App.getLoggedInUser().setPassword(newPassword);
+                    SerializationUtility.saveAppState("users.json");
                 }
             }
         };
@@ -77,6 +80,7 @@ public class ProfileMenuController {
                     case 3: selectedAvatar = GameAssetManager.getAvatars().get(3); break;
                 }
                 App.getLoggedInUser().setAvatar(selectedAvatar);
+                SerializationUtility.saveAppState("users.json");
             }
         };
     }
@@ -88,6 +92,7 @@ public class ProfileMenuController {
                 Main.getMain().getScreen().dispose();
                 App.getUsers().remove(App.getLoggedInUser());
                 App.setLoggedInUser(null);
+                SerializationUtility.saveAppState("users.json");
                 Main.getMain().setScreen(new LoginMenu(new LoginMenuController(), GameAssetManager.getManager().getSkin()));
             }
         };

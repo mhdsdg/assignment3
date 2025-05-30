@@ -3,6 +3,7 @@ package untildawn.practice.Controller;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import untildawn.practice.Main;
+import untildawn.practice.Model.Adapters.SerializationUtility;
 import untildawn.practice.Model.App;
 import untildawn.practice.Model.Enum.dialogue.Dialogues;
 import untildawn.practice.Model.Enum.dialogue.EnglishDialogue;
@@ -42,6 +43,7 @@ public class SignupMenuController {
                 }
                 int i = App.getRand().nextInt(4);
                 user.setAvatar(GameAssetManager.getAvatars().get(i));
+                SerializationUtility.saveAppState("users.json");
                 Main.getMain().getScreen().dispose();
                 Main.getMain().setScreen(new LoginMenu(new LoginMenuController(), GameAssetManager.getManager().getSkin()));
             }
