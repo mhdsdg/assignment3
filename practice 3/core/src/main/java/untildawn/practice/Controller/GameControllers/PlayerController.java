@@ -21,6 +21,7 @@ public class PlayerController {
 
     private float speedBoostTimer;
     private boolean speedIsBoosted;
+    public int border = 0;
 
     public PlayerController(Player player) {
         this.player = player;
@@ -68,6 +69,12 @@ public class PlayerController {
     }
 
     private void checkHit() {
+        if(monsterController.getElder() != null){
+            if(monsterController.getElder().getRect().collidesWith(player.getRect())){
+                isHit();
+                return;
+            }
+        }
         for (Tree tree : monsterController.getTrees()) {
             if(tree.getRect().collidesWith(player.getRect())){
                 isHit();
@@ -98,20 +105,20 @@ public class PlayerController {
         boolean isWalking = false;
 
         if (Gdx.input.isKeyPressed(ControlKeys.GO_UP.getKeyCode())) {
-            player.setY(player.getY() - player.getSpeed());
+            player.setY(Math.max(player.getY() - player.getSpeed() , -2100 + border));
             isWalking = true;
         }
         if (Gdx.input.isKeyPressed(ControlKeys.GO_RIGHT.getKeyCode())) {
-            player.setX(player.getX() - player.getSpeed());
+            player.setX(Math.max(player.getX() - player.getSpeed(),  -2750 + border));
             player.setFacingRight(true);
             isWalking = true;
         }
         if (Gdx.input.isKeyPressed(ControlKeys.GO_DOWN.getKeyCode())) {
-            player.setY(player.getY() + player.getSpeed());
+            player.setY(Math.min(player.getY() + player.getSpeed(), 520 - border));
             isWalking = true;
         }
         if (Gdx.input.isKeyPressed(ControlKeys.GO_LEFT.getKeyCode())) {
-            player.setX(player.getX() + player.getSpeed());
+            player.setX(Math.min(player.getX() + player.getSpeed(), 950 - border));
             player.setFacingRight(false);
             isWalking = true;
         }

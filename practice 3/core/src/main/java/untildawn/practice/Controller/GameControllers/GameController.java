@@ -37,6 +37,7 @@ public class GameController {
         worldController = new WorldController(playerController);
         playerController.worldController = worldController;
         monsterController = new MonsterController(worldController, getWeaponController().bulletController);
+        monsterController.setPlayerController(playerController);
         playerController.monsterController = monsterController;
         playerController.worldController = worldController;
         timeCounterController = new TimeCounterController(skin, EndTime);
@@ -54,6 +55,9 @@ public class GameController {
             playerController.update();
             weaponController.update();
             monsterController.update();
+            if(!monsterController.elderHasSpawned && TotalTime > EndTime/2 && monsterController.getElder() == null){
+                monsterController.spawnElder();
+            }
         }
         TotalTime += Gdx.graphics.getDeltaTime();
     }

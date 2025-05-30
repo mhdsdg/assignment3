@@ -69,6 +69,9 @@ public class GameAssetManager {
     private static Texture ProcreaseTexture = new Texture(Gdx.files.internal("ability/Procrease.png"));
     private static Texture SpeedyTexture = new Texture(Gdx.files.internal("ability/Speedy.png"));
     private static Texture VitalityTexture = new Texture(Gdx.files.internal("ability/Vitality.png"));
+
+    private static TextureRegion elderTexture = new TextureRegion(new Texture(Gdx.files.internal("Monsters/ElderBrain.png")));
+
     public static void loadMusic() {
         for (String musicFileAddress : musicFileAddresses) {
             assetManager.load(musicFileAddress, Music.class);
@@ -384,6 +387,14 @@ public class GameAssetManager {
 
     public static void setVitalityTexture(Texture vitalityTexture) {
         VitalityTexture = vitalityTexture;
+    }
+
+    public static TextureRegion getElderTexture() {
+        return elderTexture;
+    }
+
+    public static void setElderTexture(TextureRegion elderTexture) {
+        GameAssetManager.elderTexture = elderTexture;
     }
 
     public Skin getSkin() {

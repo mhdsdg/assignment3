@@ -1,6 +1,7 @@
 package untildawn.practice;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import untildawn.practice.Controller.SignupMenuController;
 import untildawn.practice.Model.GameAssetManager;
@@ -13,6 +14,7 @@ public class Main extends Game {
     private static Main main;
     private static SpriteBatch batch;
     private static ProfileMenu profileMenu;
+    private static OrthographicCamera camera;
 
     public static ProfileMenu getProfileMenu() {
         return profileMenu;

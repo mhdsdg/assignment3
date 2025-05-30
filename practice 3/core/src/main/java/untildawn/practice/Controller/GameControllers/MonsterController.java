@@ -14,15 +14,18 @@ import java.util.Random;
 public class MonsterController {
     private WorldController worldController;
     private BulletController bulletController;
+    private PlayerController playerController;
 
     private ArrayList<Tree> trees;
     private ArrayList<Tentacle> tentacles;
     private ArrayList<EyeBat> eyeBats = new ArrayList<>();
     private ArrayList<EnemyBullet> enemyBullets = new ArrayList<>();
     private Elder elder;
+    public boolean elderHasSpawned;
 
     private float tentacleSpawnTimer = 0;
     private float eyeBatSpawnTimer = 0;
+    private float elderSpawnTimer = 0;
     private float totalTime = 0;
     private Random random = new Random();
 
@@ -32,6 +35,7 @@ public class MonsterController {
         putTrees();
         this.tentacles = new ArrayList<>();
         putEyeBats();
+        spawnElder();
     }
 
     public void putTrees() {
@@ -68,6 +72,17 @@ public class MonsterController {
         totalTime += Gdx.graphics.getDeltaTime();
         tentacleSpawnTimer += Gdx.graphics.getDeltaTime();
         eyeBatSpawnTimer += Gdx.graphics.getDeltaTime();
+        float offsetX = worldController.getPlayerWorldX() - Gdx.graphics.getWidth() / 2f;
+        float offsetY = worldController.getPlayerWorldY() - Gdx.graphics.getHeight() / 2f;
+        if(elder != null){
+            elder.update(Gdx.graphics.getDeltaTime(), worldController.getPlayerWorldX(), worldController.getPlayerWorldY());
+            elderSpawnTimer += Gdx.graphics.getDeltaTime();
+            if(elderSpawnTimer > 0.2f ){
+                playerController.border += 5;
+                elderSpawnTimer = 0;
+            }
+            elder.draw(offsetX, offsetY);
+        }
         if (tentacleSpawnTimer >= 3f) { // Every 3 seconds
             int tentaclesToSpawn = (int)(totalTime / 30f);
             for (int i = 0; i < tentaclesToSpawn; i++) {
@@ -85,15 +100,10 @@ public class MonsterController {
 
         for (Tentacle tentacle : tentacles) {
             tentacle.update(Gdx.graphics.getDeltaTime(), worldController.getPlayerWorldX(), worldController.getPlayerWorldY());
-
-            float offsetX = worldController.getPlayerWorldX() - Gdx.graphics.getWidth() / 2f;
-            float offsetY = worldController.getPlayerWorldY() - Gdx.graphics.getHeight() / 2f;
             tentacle.draw(offsetX, offsetY);
         }
         for (EyeBat bat : eyeBats) {
             bat.update(Gdx.graphics.getDeltaTime(), worldController.getPlayerWorldX(), worldController.getPlayerWorldY());
-            float offsetX = worldController.getPlayerWorldX() - Gdx.graphics.getWidth() / 2f;
-            float offsetY = worldController.getPlayerWorldY() - Gdx.graphics.getHeight() / 2f;
             bat.draw(offsetX, offsetY);
         }
         checkHit();
@@ -155,6 +165,22 @@ public class MonsterController {
     }
 
     public void checkHit() {
+        if(elder != null){
+            if(elder.getHP() <= 0){
+                dropXP(elder.getX(), elder.getY());
+                playerController.border = 0;
+                elder = null;
+            }
+            else{
+                bulletController.bullets.removeIf(bullet -> {
+                    if(elder.getRect().collidesWith(bullet.getRect())){
+                        elder.setHP(elder.getHP() - bullet.getDamage());
+                        return true;
+                    }
+                    return false;
+                });
+            }
+        }
         trees.removeIf(tree -> {
             if (tree.getHP() <= 0) {
                 dropXP(tree.getX(), tree.getY());
@@ -246,5 +272,17 @@ public class MonsterController {
 
     public ArrayList<Tentacle> getTentacles() {
         return tentacles;
+    }
+
+    public void spawnElder() {
+        elder = new Elder(Gdx.graphics.getWidth()/2f + 300, Gdx.graphics.getHeight()/2f + 300);
+    }
+
+    public PlayerController getPlayerController() {
+        return playerController;
+    }
+
+    public void setPlayerController(PlayerController playerController) {
+        this.playerController = playerController;
     }
 }
