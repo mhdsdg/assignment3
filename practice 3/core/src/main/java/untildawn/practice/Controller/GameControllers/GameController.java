@@ -35,6 +35,7 @@ public class GameController {
         playerController.player.weaponController = weaponController;
         ammoCounterController = new AmmoCounterController(weaponController.weapon, skin);
         worldController = new WorldController(playerController);
+        playerController.worldController = worldController;
         monsterController = new MonsterController(worldController, getWeaponController().bulletController);
         playerController.monsterController = monsterController;
         playerController.worldController = worldController;

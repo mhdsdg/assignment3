@@ -64,6 +64,11 @@ public class GameAssetManager {
     public final static String[] musicFileAddresses = {"music/sweden.mp3","music/dark.mp3","music/test.mp3"};
     public final static AssetManager assetManager = new AssetManager();
 
+    private static Texture AmocreaseTexture = new Texture(Gdx.files.internal("ability/Amocrease.png"));
+    private static Texture DamagerTexture = new Texture(Gdx.files.internal("ability/Damager.png"));
+    private static Texture ProcreaseTexture = new Texture(Gdx.files.internal("ability/Procrease.png"));
+    private static Texture SpeedyTexture = new Texture(Gdx.files.internal("ability/Speedy.png"));
+    private static Texture VitalityTexture = new Texture(Gdx.files.internal("ability/Vitality.png"));
     public static void loadMusic() {
         for (String musicFileAddress : musicFileAddresses) {
             assetManager.load(musicFileAddress, Music.class);
@@ -339,6 +344,46 @@ public class GameAssetManager {
 
     public static void setGuestAvatar(Texture guestAvatar) {
         GameAssetManager.guestAvatar = guestAvatar;
+    }
+
+    public static Texture getAmocreaseTexture() {
+        return AmocreaseTexture;
+    }
+
+    public static void setAmocreaseTexture(Texture amocreaseTexture) {
+        AmocreaseTexture = amocreaseTexture;
+    }
+
+    public static Texture getDamagerTexture() {
+        return DamagerTexture;
+    }
+
+    public static void setDamagerTexture(Texture damagerTexture) {
+        DamagerTexture = damagerTexture;
+    }
+
+    public static Texture getProcreaseTexture() {
+        return ProcreaseTexture;
+    }
+
+    public static void setProcreaseTexture(Texture procreaseTexture) {
+        ProcreaseTexture = procreaseTexture;
+    }
+
+    public static Texture getSpeedyTexture() {
+        return SpeedyTexture;
+    }
+
+    public static void setSpeedyTexture(Texture speedyTexture) {
+        SpeedyTexture = speedyTexture;
+    }
+
+    public static Texture getVitalityTexture() {
+        return VitalityTexture;
+    }
+
+    public static void setVitalityTexture(Texture vitalityTexture) {
+        VitalityTexture = vitalityTexture;
     }
 
     public Skin getSkin() {

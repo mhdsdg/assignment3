@@ -27,6 +27,7 @@ public class MainMenu implements Screen {
     private TextButton preGameButton;
     private TextButton scoreBoardButton;
     private TextButton hintMenuButton;
+    private TextButton continueGameButton;
     private TextButton logoutButton;
 
     // User info labels
@@ -82,6 +83,7 @@ public class MainMenu implements Screen {
         // Center column - menu buttons
         Table menuTable = new Table();
         menuTable.add(preGameButton).width(300).padBottom(15f).row();
+        menuTable.add(continueGameButton).width(300).padBottom(15f).row();
         menuTable.add(profileButton).width(300).padBottom(15f).row();
         menuTable.add(scoreBoardButton).width(300).padBottom(15f).row();
         menuTable.add(settingsButton).width(300).padBottom(15f).row();

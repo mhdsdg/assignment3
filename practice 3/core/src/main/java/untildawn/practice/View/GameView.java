@@ -4,17 +4,17 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import untildawn.practice.Controller.GameControllers.GameController;
 import untildawn.practice.Main;
-import untildawn.practice.Model.Abilities.Damager;
-import untildawn.practice.Model.Abilities.Procrease;
-import untildawn.practice.Model.Abilities.Speedy;
-import untildawn.practice.Model.Abilities.Vitality;
+import untildawn.practice.Model.Abilities.*;
 import untildawn.practice.Model.Player;
+import untildawn.practice.Model.User;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 public class GameView implements Screen, InputProcessor {
@@ -31,6 +31,9 @@ public class GameView implements Screen, InputProcessor {
     private Texture shadowTexture;
     private Pixmap shadowPixmap;
     private int sightRadius = 300;
+    private ChooseAbilityMenu abilityMenu;
+    private boolean levelUpPending = false;
+    private ArrayList<Ability> pendingAbilities;
 
     public GameView(GameController controller , Skin skin) {
         this.controller = controller;
@@ -43,8 +46,24 @@ public class GameView implements Screen, InputProcessor {
         stage = new Stage(new ScreenViewport());
         pauseMenu = new PauseMenu(stage, skin, this);
         settingsMenu = new SettingsMenu(stage, skin, this);
+        abilityMenu = new ChooseAbilityMenu(stage, skin, this, controller.getPlayerController().getPlayer());
         Gdx.input.setInputProcessor(new InputMultiplexer(stage, this));
         createShadowTexture();
+    }
+
+    private ArrayList<Ability> getRandomAbilities() {
+        ArrayList<Ability> abilities = new ArrayList<>();
+        abilities.add(new Amocrease(controller.getWeaponController()));
+        abilities.add(new Damager(controller.getWeaponController()));
+        abilities.add(new Procrease(controller.getWeaponController()));
+        abilities.add(new Speedy(controller.getPlayerController()));
+        abilities.add(new Vitality(controller.getPlayerController().getPlayer()));
+        Collections.shuffle(abilities);
+        ArrayList<Ability> randomAbilities = new ArrayList<>();
+        randomAbilities.add(abilities.get(0));
+        randomAbilities.add(abilities.get(1));
+        randomAbilities.add(abilities.get(2));
+        return abilities;
     }
 
     private void createShadowTexture() {
@@ -90,6 +109,16 @@ public class GameView implements Screen, InputProcessor {
 
             // 3. Render the HUD elements
             controller.updateHUDs();
+            Player player = controller.getPlayerController().getPlayer();
+            if (player.getPreviousLevel()<player.getLevel() && !abilityMenu.isVisible() && !levelUpPending) {
+                levelUpPending = true;
+                pendingAbilities = getRandomAbilities();
+            }
+
+            if (levelUpPending && !abilityMenu.isVisible()) {
+                abilityMenu.show(pendingAbilities);
+                levelUpPending = false;
+            }
 
             Main.getBatch().end();
             checkEndGame();
@@ -211,10 +240,10 @@ public class GameView implements Screen, InputProcessor {
         if(controlPressed && downPressed){
             controlPressed = false;
             downPressed = false;
-            controller.getPlayerController().getPlayer().getAbilities().add(new Vitality(controller.getPlayerController().getPlayer()));
-            controller.getPlayerController().getPlayer().getAbilities().add(new Damager(controller.getWeaponController()));
-            controller.getPlayerController().getPlayer().getAbilities().add(new Speedy(controller.getPlayerController()));
-            controller.getPlayerController().getPlayer().getAbilities().add(new Procrease(controller.getWeaponController()));
+            controller.getPlayerController().getPlayer().getAbilities().add(new Vitality(controller.getPlayerController().getPlayer(), true));
+            controller.getPlayerController().getPlayer().getAbilities().add(new Damager(controller.getWeaponController(),true));
+            controller.getPlayerController().getPlayer().getAbilities().add(new Speedy(controller.getPlayerController(),true));
+            controller.getPlayerController().getPlayer().getAbilities().add(new Procrease(controller.getWeaponController(),true));
         }
         if(shiftPressed && downPressed){
             shiftPressed = false;

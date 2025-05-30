@@ -23,6 +23,7 @@ public class Player {
     private CollisionRect rect ;
     private boolean facingRight = true;
     private int xp;
+    private int previousLevel = 1;
     private int level = 1;
     private int killCount;
     private ArrayList<Ability> abilities = new ArrayList<>();
@@ -145,6 +146,7 @@ public class Player {
 
     public void addXP(int i) {
         xp += i ;
+        previousLevel = level;
         if(xp >= level*20){
             xp = xp - level*20;
             level++;
@@ -172,5 +174,13 @@ public class Player {
 
     public ArrayList<Ability> getAbilities() {
         return abilities;
+    }
+
+    public int getPreviousLevel() {
+        return previousLevel;
+    }
+
+    public void setPreviousLevel(int previousLevel) {
+        this.previousLevel = previousLevel;
     }
 }

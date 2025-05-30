@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import untildawn.practice.Model.App;
 import untildawn.practice.Model.GameAssetManager;
 import untildawn.practice.Model.Player;
+import untildawn.practice.Model.User;
 
 public class EndGameScreen {
     private Texture background;
@@ -33,6 +34,9 @@ public class EndGameScreen {
         this.surviveTime = surviveTime;
         this.killCount = killCount;
         this.score = (int)(surviveTime * killCount);
+        App.getLoggedInUser().setScore(App.getLoggedInUser().getScore() + score);
+        App.getLoggedInUser().setKills(App.getLoggedInUser().getKills() + killCount);
+        App.getLoggedInUser().setSurvivalTime(App.getLoggedInUser().getSurvivalTime() + (int)surviveTime);
 
         this.background = isWin ?
             GameAssetManager.getWinScreenTexture() :
