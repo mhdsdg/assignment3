@@ -1,0 +1,20 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "mahdi",
+      "password": "Sadeghi12!@",
+      "securityQuestion": null,
+      "securityAnswer": null,
+      "score": 0,
+      "kills": 0,
+      "survivalTime": 0,
+      "avatarPath": "Avatars/avatar3.png"
+    }
+  ],
+  "language": "English",
+  "musicVolume": 0.5,
+  "autoReloadEnabled": true,
+  "soundEffectsEnabled": true,
+  "grayscaleEnabled": false
+}
